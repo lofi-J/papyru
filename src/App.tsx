@@ -16,7 +16,7 @@ function App() {
 
   return (
     <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+      <h1 className="text-red-500">Welcome to Tauri + React</h1>
 
       <p>Click on the Tauri, Vite, and React logos to learn more.</p>
 

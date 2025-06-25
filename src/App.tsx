@@ -1,42 +1,14 @@
-import { invoke } from '@tauri-apps/api/core';
-import { useEffect, useState } from 'react';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { ROUTES } from './constances/routes';
+import { Home, NotFound } from './pages';
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState('');
-  const [name, setName] = useState('');
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke('greet', { name }));
-  }
-  useEffect(() => {
-    console.log('greetMsg', greetMsg);
-  }, []);
-
+export default function App() {
   return (
-    <main className="container">
-      <h1 className="text-red-500">Welcome to Tauri + React</h1>
-
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={e => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={e => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;

@@ -1,12 +1,12 @@
+import { ROUTES } from '@/constances/routes';
+import { Home, Loading, NotFound } from '@/pages';
 import { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
-import { ROUTES } from './constances/routes';
-import { Home, NotFound } from './pages';
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path={ROUTES.HOME} element={<Home />} />
           <Route path="*" element={<NotFound />} />

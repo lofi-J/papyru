@@ -1,5 +1,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
@@ -9,6 +10,15 @@ const host = process.env.TAURI_DEV_HOST;
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
   plugins: [react(), tailwindcss(), svgr()],
+  resolve: {
+    alias: {
+      '@': path.resolve('./src'),
+      '@assets': path.resolve('./src/assets'),
+      '@constances': path.resolve('./src/constances'),
+      '@pages': path.resolve('./src/pages'),
+      '@shared': path.resolve('./src/shared'),
+    },
+  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

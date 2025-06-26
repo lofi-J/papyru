@@ -1,4 +1,3 @@
-// route path constants
-export const ROUTES: Record<string, string> = {
+export const ROUTES = {
   HOME: '/',
 };

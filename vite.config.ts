@@ -17,6 +17,7 @@ export default defineConfig(async () => ({
       '@constances': path.resolve('./src/constances'),
       '@pages': path.resolve('./src/pages'),
       '@shared': path.resolve('./src/shared'),
+      '@style': path.resolve('./src/style'),
     },
   },
 

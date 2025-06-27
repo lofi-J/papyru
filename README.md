@@ -3,7 +3,7 @@
 <div align="center">
   <img src="public/images/letter_papyrus.jpg" width="300px" height="150px" />
   
-  **크로스 플랫폼 노트 테이킹 어플리케이션**
+  **크로스 플랫폼 노트 어플리케이션**
   
   [![Tech Stack](https://skillicons.dev/icons?i=ts,tailwind,react,rust,sqlite,tauri&perline=3)](https://skillicons.dev)
 </div>
@@ -34,14 +34,6 @@ Papyru는 Tauri와 React를 기반으로 한 크로스 플랫폼 노트 테이�
 - [Node.js](https://nodejs.org/) (18.0.0 이상)
 - [Rust](https://rustup.rs/)
 - [pnpm](https://pnpm.io/)
-
-**개발 예정:**
-
-- 🔄 노트 CRUD 시스템
-- 🔄 SQLite 데이터베이스 연동
-- 🔄 TailwindCSS 스타일링
-- 🔄 리치 텍스트 에디터
-- 🔄 검색 및 태그 기능
 
 <br><br>
 

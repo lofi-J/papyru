@@ -1,0 +1,21 @@
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-parastoo: 'Parastoo', ui-serif, serif;
+  --font-hahmlet: 'Hahmlet', ui-serif, serif;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-background: var(--background);
+}
+
+:root {
+  --primary: #000;
+  --background: #fff;
+}
+
+.dark {
+  --primary: #fff;
+  --background: #000;
+}

@@ -6,8 +6,8 @@ export default function Home() {
         <h1 className="text-display-b text-gray-900 mb-2">
           Typography Showcase
         </h1>
-        <p className="text-body text-gray-600">
-          나눔고딕 폰트와 커스텀 typography 클래스 확인
+        <p className="text-body test-mixed text-gray-600">
+          파스타오 폰트와 하멀 폰트 확인
         </p>
       </div>
 

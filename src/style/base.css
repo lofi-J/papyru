@@ -1,12 +1,10 @@
 @theme {
-  --font-nanum:
-    'NanumGothic', 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo',
-    sans-serif;
-  --font-nanum-sans: 'NanumGothic', ui-sans-serif, system-ui, sans-serif;
+  --font-parastoo: 'Parastoo', ui-serif, serif;
+  --font-hahmlet: 'Hahmlet', ui-serif, serif;
 }
 
 @layer base {
   body {
-    font-family: var(--font-nanum);
+    font-family: var(--font-hahmlet);
   }
 }

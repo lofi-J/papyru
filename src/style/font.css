@@ -1,17 +1,81 @@
-/* 나눔고딕 폰트 정의 */
+/* Parastoo Variable Font */
 @font-face {
-  font-family: 'NanumGothic';
-  src: url('@assets/fonts/nanum-gothic/NanumGothic-Regular.ttf')
-    format('truetype');
+  font-family: 'Parastoo';
+  src: url('@assets/fonts/parastoo/Parastoo-VariableFont_wght.ttf')
+    format('truetype-variations');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  font-variation-settings: 'wght' 400;
 }
 
 @font-face {
-  font-family: 'NanumGothic';
-  src: url('@assets/fonts/nanum-gothic/NanumGothic-Bold.ttf') format('truetype');
+  font-family: 'Parastoo';
+  src: url('@assets/fonts/parastoo/Parastoo-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 500;
+}
+
+@font-face {
+  font-family: 'Parastoo';
+  src: url('@assets/fonts/parastoo/Parastoo-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 600;
+}
+
+@font-face {
+  font-family: 'Parastoo';
+  src: url('@assets/fonts/parastoo/Parastoo-VariableFont_wght.ttf')
+    format('truetype-variations');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+  font-variation-settings: 'wght' 700;
+}
+
+/* Hahmlet Variable Font */
+@font-face {
+  font-family: 'Hahmlet';
+  src: url('@assets/fonts/hahmlet/Hahmlet-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 400;
+}
+
+@font-face {
+  font-family: 'Hahmlet';
+  src: url('@assets/fonts/hahmlet/Hahmlet-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 500;
+}
+
+@font-face {
+  font-family: 'Hahmlet';
+  src: url('@assets/fonts/hahmlet/Hahmlet-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 600;
+}
+
+@font-face {
+  font-family: 'Hahmlet';
+  src: url('@assets/fonts/hahmlet/Hahmlet-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'wght' 700;
 }

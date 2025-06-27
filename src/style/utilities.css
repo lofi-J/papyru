@@ -1,0 +1,73 @@
+/* Typography 커스텀 클래스 정의 */
+@layer utilities {
+  /* Display Typography */
+  .text-display {
+    @apply text-5xl font-normal leading-tight tracking-tight;
+  }
+
+  .text-display-b {
+    @apply text-5xl font-bold leading-tight tracking-tight;
+  }
+
+  /* Title Typography */
+  .text-title {
+    @apply text-4xl font-normal leading-tight tracking-normal;
+  }
+
+  .text-title-b {
+    @apply text-4xl font-bold leading-tight tracking-normal;
+  }
+
+  /* Subtitle Typography */
+  .text-subtitle {
+    @apply text-2xl font-normal leading-normal tracking-normal;
+  }
+
+  .text-subtitle-b {
+    @apply text-2xl font-bold leading-normal tracking-normal;
+  }
+
+  .text-subtitle-2 {
+    @apply text-xl font-normal leading-normal tracking-normal;
+  }
+
+  .text-subtitle-2-b {
+    @apply text-xl font-bold leading-normal tracking-normal;
+  }
+
+  /* Body Typography */
+  .text-body {
+    @apply text-base font-normal leading-relaxed tracking-normal;
+  }
+
+  .text-body-b {
+    @apply text-base font-bold leading-relaxed tracking-normal;
+  }
+
+  .text-body-2 {
+    @apply text-sm font-normal leading-relaxed tracking-normal;
+  }
+
+  .text-body-2-b {
+    @apply text-sm font-bold leading-relaxed tracking-normal;
+  }
+
+  /* Caption Typography */
+  .text-caption {
+    @apply text-xs font-normal leading-normal tracking-wide;
+  }
+
+  .text-caption-b {
+    @apply text-xs font-bold leading-normal tracking-wide;
+  }
+
+  .text-caption-2 {
+    @apply text-xs font-normal leading-tight tracking-wider;
+  }
+
+  .text-caption-2-b {
+    @apply text-xs font-bold leading-tight tracking-wider;
+  }
+
+  /* 추가 유틸리티 클래스 */
+}

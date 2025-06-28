@@ -6,16 +6,29 @@
 }
 
 @theme inline {
-  --color-primary: var(--primary);
+  --color-text: var(--text);
   --color-background: var(--background);
 }
 
 :root {
-  --primary: #000;
-  --background: #fff;
+  --background: #fef7e0; /* 기본 백그라운드 (파피루스 베이스) */
+  --text: #5d4e37; /* 브라운 텍스트 */
+  --text-muted: #8b7355; /* 연한 브라운 */
+  --primary: #f4e4bc; /* 프라이머리 */
+  --secondary: #e8d5a3; /* 세컨더리 */
+  --accent: #d4b896; /* 악센트 컬러 */
+  --surface: #f4e4bc; /* 표면 색상 */
+  --border: #c9b88a; /* 보더 컬러 */
 }
 
+/* 다크 모드 (어두운 종이 질감) */
 .dark {
-  --primary: #fff;
-  --background: #000;
+  --background: #1f1912; /* 기본 백그라운드 (어두운 브라운 베이스) */
+  --text: #e8d5a3; /* 밝은 베이지 텍스트 */
+  --text-muted: #c9b88a; /* 조금 더 어두운 베이지 */
+  --primary: #2c2419; /* 프라이머리 */
+  --secondary: #3a3024; /* 세컨더리 */
+  --accent: #4a3f2f; /* 악센트 컬러 */
+  --surface: #2c2419; /* 표면 색상 */
+  --border: #6b5b42; /* 보더 컬러 */
 }

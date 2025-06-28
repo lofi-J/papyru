@@ -1,7 +1,78 @@
 pub const SQL_CREATE_TABLE_NOTES: &str = "CREATE TABLE IF NOT EXISTS notes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  body TEXT NOT NULL DEFAULT '',
   title TEXT NOT NULL,
-  content TEXT NOT NULL,
+  project_id INTEGER,
+  tags TEXT DEFAULT '[]',
+  sort_order INTEGER DEFAULT 0,
+  parent_note_id INTEGER,
+  is_pinned BOOLEAN DEFAULT FALSE,
+  is_favorite BOOLEAN DEFAULT FALSE,
+  word_count INTEGER DEFAULT 0,
+  mood TEXT DEFAULT 'neutral',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  deleted_at DATETIME,
+  FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL,
+  FOREIGN KEY (parent_note_id) REFERENCES notes(id) ON DELETE CASCADE
+)";
+
+pub const SQL_CREATE_TABLE_PROJECTS: &str = "CREATE TABLE IF NOT EXISTS projects (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  description TEXT,
+  color TEXT DEFAULT '#D4B896',
+  icon TEXT DEFAULT 'folder',
+  parent_id INTEGER,
+  sort_order INTEGER DEFAULT 0,
+  is_favorite BOOLEAN DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  deleted_at DATETIME,
+  FOREIGN KEY (parent_id) REFERENCES projects(id) ON DELETE CASCADE
+)";
+
+pub const SQL_CREATE_TABLE_LINKS: &str = "CREATE TABLE IF NOT EXISTS links (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  source_note_id INTEGER NOT NULL,
+  target_note_id INTEGER NOT NULL,
+  link_text TEXT,
+  link_type TEXT DEFAULT 'reference',
+  position_in_body INTEGER,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (source_note_id) REFERENCES notes(id) ON DELETE CASCADE,
+  FOREIGN KEY (target_note_id) REFERENCES notes(id) ON DELETE CASCADE,
+  UNIQUE(source_note_id, target_note_id, position_in_body)
+)";
+
+pub const SQL_CREATE_TABLE_TAGS: &str = "CREATE TABLE IF NOT EXISTS tags (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  color TEXT DEFAULT '#8B7355',
+  description TEXT,
+  usage_count INTEGER DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)";
+
+pub const SQL_CREATE_TABLE_NOTE_TAGS: &str = "CREATE TABLE IF NOT EXISTS note_tags (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  note_id INTEGER NOT NULL,
+  tag_id INTEGER NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE,
+  FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+  UNIQUE(note_id, tag_id)
+)";
+
+pub const SQL_CREATE_TABLE_RECENT_ACTIVITIES: &str =
+    "CREATE TABLE IF NOT EXISTS recent_activities (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  activity_type TEXT NOT NULL,
+  note_id INTEGER,
+  project_id INTEGER,
+  metadata TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE,
+  FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 )";

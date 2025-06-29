@@ -68,6 +68,15 @@
   .text-caption-2-b {
     @apply text-xs font-bold leading-tight tracking-wider;
   }
+}
 
-  /* 추가 유틸리티 클래스 */
+/* Layout */
+@layer utilities {
+  .f-c {
+    @apply flex flex-col;
+  }
+
+  .f-r {
+    @apply flex flex-row;
+  }
 }

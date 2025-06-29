@@ -79,3 +79,13 @@
   font-display: swap;
   font-variation-settings: 'wght' 700;
 }
+
+/* 로고용 폰트 */
+@font-face {
+  font-family: 'DMSerifText';
+  src: url('@assets/fonts/dm-serif-text/DMSerifText-Italic.ttf');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  font-variation-settings: 'wght' 400;
+}

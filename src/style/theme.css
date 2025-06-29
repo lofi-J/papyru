@@ -3,6 +3,7 @@
 @theme {
   --font-parastoo: 'Parastoo', ui-serif, serif;
   --font-hahmlet: 'Hahmlet', ui-serif, serif;
+  --font-dm-serif-text: 'DMSerifText', ui-serif, serif;
 }
 
 @theme inline {

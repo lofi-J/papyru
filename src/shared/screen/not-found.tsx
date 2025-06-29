@@ -1,4 +1,4 @@
-import { ROUTES } from '@/constances/routes';
+import { ROUTES } from '@/shared/constance/routes';
 import { useNavigate } from 'react-router';
 
 export default function NotFound() {

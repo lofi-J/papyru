@@ -24,8 +24,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@assets/*": ["./src/assets/*"],
-      "@constances/*": ["./src/constances/*"],
-      "@pages/*": ["./src/pages/*"],
+      "@component/*": ["./src/component/*"],
+      "@page/*": ["./src/page/*"],
       "@shared/*": ["./src/shared/*"],
       "@style/*": ["./src/style/*"]
     }

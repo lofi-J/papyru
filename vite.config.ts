@@ -14,8 +14,8 @@ export default defineConfig(async () => ({
     alias: {
       '@': path.resolve('./src'),
       '@assets': path.resolve('./src/assets'),
-      '@constances': path.resolve('./src/constances'),
-      '@pages': path.resolve('./src/pages'),
+      '@component': path.resolve('./src/component'),
+      '@page': path.resolve('./src/page'),
       '@shared': path.resolve('./src/shared'),
       '@style': path.resolve('./src/style'),
     },

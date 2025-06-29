@@ -1,5 +1,5 @@
-import { ROUTES } from '@/constances/routes';
-import { Home, Loading, NotFound } from '@/pages';
+import { Home, Loading, NotFound } from '@/page';
+import { ROUTES } from '@/shared/constance/routes';
 import { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
 

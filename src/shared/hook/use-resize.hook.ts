@@ -4,14 +4,14 @@ interface UseResizeProps {
   minWidth: number;
   maxWidth: number;
   setWidth: (width: number) => void;
-  initialWidth?: number;
+  initialWidth: number;
 }
 
 export const useResize = ({
   minWidth,
   maxWidth,
   setWidth,
-  initialWidth = 300,
+  initialWidth,
 }: UseResizeProps) => {
   const resizeHandleRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);

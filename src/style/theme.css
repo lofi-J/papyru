@@ -11,6 +11,7 @@
   --color-text-muted: var(--text-muted);
   --color-background: var(--background);
   --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
   --color-header-background: var(--header-background);
 }
 
@@ -31,5 +32,6 @@
   --text-muted: color-mix(in srgb, var(--text) 70%, var(--background) 30%);
   --background: #282828;
   --border: #3b342d;
+  --border-hover: #4b423a;
   --header-background: #202125;
 }

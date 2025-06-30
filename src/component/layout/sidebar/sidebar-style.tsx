@@ -1,4 +1,5 @@
 import IconChevronDoubleRight from '@/assets/icon/chevron-double-right.svg?react';
+import { DEFAULT_SIDEBAR_WIDTH } from '@/shared/constance/layout';
 import { useSidebar } from '@/shared/context/sidebar-provider';
 import { useResize } from '@/shared/hook/use-resize.hook';
 import clsx from 'clsx';
@@ -11,6 +12,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
     minWidth: 200,
     maxWidth: 400,
     setWidth: setSidebarWidth,
+    initialWidth: DEFAULT_SIDEBAR_WIDTH,
   });
 
   return (
@@ -35,6 +37,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
   );
 }
 
+// 사이드바 크기 조절 컴포넌트
 const ReSizeHandle = forwardRef<HTMLDivElement>((_, ref) => {
   const [isHover, setIsHover] = useState(false);
 
@@ -50,7 +53,7 @@ const ReSizeHandle = forwardRef<HTMLDivElement>((_, ref) => {
   const mouseEnter = () => {
     hoverTimer.current = setTimeout(() => {
       setIsHover(true);
-    }, 300);
+    }, 100);
   };
 
   return (
@@ -58,12 +61,14 @@ const ReSizeHandle = forwardRef<HTMLDivElement>((_, ref) => {
       ref={ref}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
-      className="absolute top-0 right-0 bottom-0 w-[8px] translate-x-[4px] z-50"
+      className="absolute top-0 -right-1 bottom-0 w-2 z-50"
     >
       <div
+        onMouseEnter={mouseEnter}
+        onMouseLeave={mouseLeave}
         className={clsx(
-          'w-1 h-full translate-x-[2px] bg-border',
-          isHover && 'cursor-col-resize bg-red-200'
+          'w-[3px] h-full translate-x-[1.5px] bg-border z-40',
+          isHover && 'cursor-col-resize bg-border-hover'
         )}
       />
     </div>

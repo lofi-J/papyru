@@ -1,4 +1,5 @@
-import IconChevronDoubleRight from '@/assets/icon/chevron-double-right.svg?react';
+import IconChevronDoubleLeft from '@/assets/icon/chevron-double-left.svg?react';
+import IconHamburgerMenu from '@/assets/icon/hamburger-menu.svg?react';
 import { DEFAULT_SIDEBAR_WIDTH } from '@/shared/constance/layout';
 import { useSidebar } from '@/shared/context/sidebar-provider';
 import { useResize } from '@/shared/hook/use-resize.hook';
@@ -8,18 +9,32 @@ import { forwardRef, PropsWithChildren, useRef, useState } from 'react';
 export default function SidebarStyle({ children }: PropsWithChildren) {
   const { sidebarRef, isOpen, toggleSidebar, sidebarWidth, setSidebarWidth } =
     useSidebar();
+
   const { resizeHandleRef } = useResize({
-    minWidth: 200,
+    minWidth: DEFAULT_SIDEBAR_WIDTH,
     maxWidth: 400,
     setWidth: setSidebarWidth,
     initialWidth: DEFAULT_SIDEBAR_WIDTH,
   });
 
+  if (!isOpen) {
+    return (
+      <div className="fixed top-0 left-0 z-50 p-2">
+        <button onClick={toggleSidebar}>
+          <IconHamburgerMenu className="w-7 h-7" />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={sidebarRef}
-      style={{ width: isOpen ? `${sidebarWidth}px` : '0px' }}
       className="fixed top-0 bottom-0 left-0 h-screen"
+      style={{
+        width: isOpen ? `${sidebarWidth}px` : '0px',
+        visibility: isOpen ? 'visible' : 'hidden',
+      }}
     >
       <div className="relative w-full h-full">
         <ReSizeHandle ref={resizeHandleRef} />
@@ -28,7 +43,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
             PAPYRU
           </div>
           <button onClick={toggleSidebar}>
-            <IconChevronDoubleRight className="w-5 h-5" />
+            <IconChevronDoubleLeft className="w-7 h-7" />
           </button>
         </div>
         <div className="f-c">{children}</div>

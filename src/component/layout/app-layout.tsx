@@ -1,6 +1,5 @@
 import Sidebar from '@/component/layout/sidebar/sidebar';
 import { useSidebar } from '@/shared/context/sidebar-provider';
-import { clsx } from 'clsx';
 import { PropsWithChildren } from 'react';
 
 export default function AppLayout({ children }: PropsWithChildren) {
@@ -8,8 +7,12 @@ export default function AppLayout({ children }: PropsWithChildren) {
 
   return (
     <div className="relative flex h-screen">
+      {/* left-0 sidebar */}
       <Sidebar />
-      <main className={clsx('flex-1', isOpen && `ml-[${sidebarWidth}px]`)}>
+      <main
+        className="flex-1"
+        style={{ marginLeft: isOpen ? sidebarWidth : 0 }}
+      >
         {children}
       </main>
     </div>

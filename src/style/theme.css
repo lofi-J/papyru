@@ -10,6 +10,8 @@
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-background: var(--background);
+  --color-border: var(--border);
+  --color-header-background: var(--header-background);
 }
 
 :root {
@@ -25,8 +27,9 @@
 
 /* 다크 모드 (어두운 종이 질감) */
 .dark {
-  --background: #282828;
-  --header-background: #202125;
   --text: #ad9d7c;
   --text-muted: color-mix(in srgb, var(--text) 70%, var(--background) 30%);
+  --background: #282828;
+  --border: #3b342d;
+  --header-background: #202125;
 }

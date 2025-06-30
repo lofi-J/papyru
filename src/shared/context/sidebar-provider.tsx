@@ -14,6 +14,7 @@ interface SidebarContext {
   toggleSidebar: () => void;
   setSidebar: (state: boolean) => void;
   sidebarWidth: number;
+  setSidebarWidth: (width: number) => void;
 }
 
 const SidebarContext = createContext<SidebarContext>({} as SidebarContext);
@@ -46,6 +47,7 @@ export function SidebarProvider({ children }: PropsWithChildren) {
         toggleSidebar,
         setSidebar,
         sidebarWidth,
+        setSidebarWidth,
       }}
     >
       {children}

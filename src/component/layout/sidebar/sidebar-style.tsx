@@ -20,7 +20,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
   if (!isOpen) {
     return (
       <div className="fixed top-0 left-0 z-50 p-2">
-        <button onClick={toggleSidebar}>
+        <button onClick={toggleSidebar} className="ghost-button">
           <IconHamburgerMenu className="w-7 h-7" />
         </button>
       </div>
@@ -42,7 +42,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
           <div className="f-r items-center font-dm-serif-text h-8 text-subtitle-2-b">
             PAPYRU
           </div>
-          <button onClick={toggleSidebar}>
+          <button onClick={toggleSidebar} className="ghost-button">
             <IconChevronDoubleLeft className="w-7 h-7" />
           </button>
         </div>

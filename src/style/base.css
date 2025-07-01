@@ -7,7 +7,6 @@
   }
   * {
     font-family: var(--font-hahmlet);
-    user-select: none;
 
     /* 색상 전환 효과 */
     transition-property: background-color, border-color, color, fill, stroke;

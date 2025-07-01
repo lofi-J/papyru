@@ -25,7 +25,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
     <>
       <div
         ref={sidebarRef}
-        className="fixed top-0 bottom-0 left-0 h-screen"
+        className="fixed top-0 bottom-0 left-0 h-screen px-2"
         style={{
           width: isOpen ? `${sidebarWidth}px` : '0px',
         }}
@@ -33,12 +33,12 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
         <div className="relative w-full h-full overflow-hidden">
           {isOpen && (
             <>
-              <div className="f-r justify-between items-center">
+              <div className="f-r justify-between items-center px-1">
                 <div className="f-r items-center font-dm-serif-text h-8 text-subtitle-2-b">
                   PAPYRU
                 </div>
                 <button onClick={toggleSidebar} className="ghost-button">
-                  <IconChevronDoubleLeft className="w-7 h-7" />
+                  <IconChevronDoubleLeft className="w-6 h-6" />
                 </button>
               </div>
               <div className="f-c">{children}</div>
@@ -51,7 +51,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
       {!isOpen && (
         <div className="fixed top-0 left-0 z-50 p-2">
           <button onClick={toggleSidebar} className="ghost-button">
-            <IconHamburgerMenu className="w-7 h-7" />
+            <IconHamburgerMenu className="w-6 h-6" />
           </button>
         </div>
       )}

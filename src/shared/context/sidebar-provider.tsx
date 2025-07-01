@@ -24,8 +24,6 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   const [isOpen, setIsOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(DEFAULT_SIDEBAR_WIDTH);
 
-  console.log(sidebarWidth);
-
   const toggleSidebar = () => setIsOpen(prev => !prev);
 
   const setSidebar = (state: boolean) => setIsOpen(state);

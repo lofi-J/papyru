@@ -1,3 +1,4 @@
+import { ROUTES } from '@/shared/constance/routes';
 import { SidebarItem } from './sidebar-item';
 import SidebarStyle from './sidebar-style';
 
@@ -5,9 +6,15 @@ import SidebarStyle from './sidebar-style';
 export default function Sidebar() {
   return (
     <SidebarStyle>
-      <SidebarItem>Sidebar1</SidebarItem>
-      <SidebarItem>Sidebar2</SidebarItem>
-      <SidebarItem>Sidebar3</SidebarItem>
+      <SidebarItem iconType="file" title="Sidebar1" path={ROUTES.HOME}>
+        Sidebar1
+      </SidebarItem>
+      <SidebarItem iconType="folder" title="Sidebar2" path={ROUTES.HOME}>
+        Sidebar2
+      </SidebarItem>
+      <SidebarItem iconType="file" title="Sidebar3" path={ROUTES.HOME}>
+        Sidebar3
+      </SidebarItem>
     </SidebarStyle>
   );
 }

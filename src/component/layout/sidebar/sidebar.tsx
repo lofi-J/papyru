@@ -1,9 +1,16 @@
 import { ROUTES } from '@/shared/constance/routes';
+import { invoke } from '@tauri-apps/api/core';
 import { SidebarItem } from './sidebar-item';
 import SidebarStyle from './sidebar-style';
 
-// TODO 사이드바 컨텐츠 추가 필요 Tauri command 추가 필요
 export default function Sidebar() {
+  const res = invoke('get_note_list');
+  res
+    .then(r => {
+      console.log(JSON.stringify(r, null, 2));
+    })
+    .catch(err => console.error(err));
+
   return (
     <SidebarStyle>
       <SidebarItem iconType="file" title="Sidebar1" path={ROUTES.HOME}>

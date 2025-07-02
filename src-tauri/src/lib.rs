@@ -1,21 +1,17 @@
-use std::sync::Mutex;
-
-use tauri::Manager;
+use tauri::{async_runtime::Mutex, Manager};
+mod command;
 mod constance;
 mod db;
+mod model;
+mod service;
 
 use db::{db::*, debug::check_database_status};
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 // 데이터베이스 상태 확인 커맨드 추가 (디버그용)
 #[tauri::command]
-fn get_db_status(app_handle: tauri::AppHandle) -> Result<String, String> {
+async fn get_db_status(app_handle: tauri::AppHandle) -> Result<String, String> {
     let connection_mutex = app_handle.state::<Mutex<rusqlite::Connection>>();
-    let connection = connection_mutex.lock().unwrap();
+    let connection = connection_mutex.lock().await;
 
     match check_database_status(&*connection) {
         Ok(_) => Ok("Database is healthy".to_string()),
@@ -32,7 +28,11 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet, get_db_status])
+        .invoke_handler(tauri::generate_handler![
+            get_db_status,
+            // feature commands
+            command::note::get_note_list,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

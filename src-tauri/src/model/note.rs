@@ -5,7 +5,7 @@ pub struct Note {
     pub id: i64,
     pub title: String,
     pub body: String,
-    pub project_id: Option<i64>,
+    pub folder_id: Option<i64>,
     pub tags: String, // JSON 배열 문자열
     pub sort_order: i64,
     pub parent_note_id: Option<i64>,
@@ -21,7 +21,7 @@ pub struct Note {
 pub struct NoteListItem {
     pub id: i64,
     pub title: String,
-    pub project_id: Option<i64>,
+    pub folder_id: Option<i64>,
     pub is_pinned: bool,
     pub is_favorite: bool,
     pub word_count: i64,

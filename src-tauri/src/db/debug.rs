@@ -19,7 +19,7 @@ pub fn check_database_status(connection: &Connection) -> Result<()> {
 
     // 각 테이블의 레코드 수 확인
     let tables = vec![
-        "projects",
+        "folders",
         "notes",
         "note_links",
         "tags",

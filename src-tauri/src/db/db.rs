@@ -65,8 +65,8 @@ fn configure_sqlite(connection: &Connection) -> Result<()> {
 
 fn create_table(connection: &Connection) -> Result<()> {
     // 외래키 의존성 순서대로 테이블 생성
-    connection.execute(sql::SQL_CREATE_TABLE_PROJECTS, [])?;
-    println!("테이블 생성 완료: projects");
+    connection.execute(sql::SQL_CREATE_TABLE_FOLDERS, [])?;
+    println!("테이블 생성 완료: folders");
     connection.execute(sql::SQL_CREATE_TABLE_NOTES, [])?;
     println!("테이블 생성 완료: notes");
     connection.execute(sql::SQL_CREATE_TABLE_TAGS, [])?;
@@ -85,13 +85,12 @@ fn create_index(connection: &Connection) -> Result<()> {
     println!("🔍 인덱스 생성 중...");
 
     let indexes = vec![ 
-        // Projects 인덱스
-        "CREATE INDEX IF NOT EXISTS idx_projects_parent_id ON projects(parent_id)",
-        "CREATE INDEX IF NOT EXISTS idx_projects_deleted_at ON projects(deleted_at)",
-        "CREATE INDEX IF NOT EXISTS idx_projects_sort_order ON projects(sort_order)",
+        // Folders 인덱스
+        "CREATE INDEX IF NOT EXISTS idx_folders_parent_id ON folders(parent_id)",
+        "CREATE INDEX IF NOT EXISTS idx_folders_deleted_at ON folders(deleted_at)",
         
         // Notes 인덱스
-        "CREATE INDEX IF NOT EXISTS idx_notes_project_id ON notes(project_id)",
+        "CREATE INDEX IF NOT EXISTS idx_notes_folder_id ON notes(folder_id)",
         "CREATE INDEX IF NOT EXISTS idx_notes_parent_note_id ON notes(parent_note_id)",
         "CREATE INDEX IF NOT EXISTS idx_notes_created_at ON notes(created_at)",
         "CREATE INDEX IF NOT EXISTS idx_notes_updated_at ON notes(updated_at)",
@@ -116,10 +115,10 @@ fn create_index(connection: &Connection) -> Result<()> {
         "CREATE INDEX IF NOT EXISTS idx_recent_activities_type ON recent_activities(activity_type)",
         "CREATE INDEX IF NOT EXISTS idx_recent_activities_created_at ON recent_activities(created_at)",
         "CREATE INDEX IF NOT EXISTS idx_recent_activities_note_id ON recent_activities(note_id)",
-        "CREATE INDEX IF NOT EXISTS idx_recent_activities_project_id ON recent_activities(project_id)",
+        "CREATE INDEX IF NOT EXISTS idx_recent_activities_folder_id ON recent_activities(folder_id)",
         
         // 복합 인덱스 (자주 함께 사용되는 컬럼들)
-        "CREATE INDEX IF NOT EXISTS idx_notes_project_updated ON notes(project_id, updated_at) WHERE deleted_at IS NULL",
+        "CREATE INDEX IF NOT EXISTS idx_notes_folder_updated ON notes(folder_id, updated_at) WHERE deleted_at IS NULL",
         "CREATE INDEX IF NOT EXISTS idx_notes_favorite_updated ON notes(is_favorite, updated_at) WHERE deleted_at IS NULL",
     ];
     
@@ -154,14 +153,14 @@ fn create_triggers(connection: &Connection) -> Result<()> {
         [],
     )?;
     
-    // Projects 업데이트 시 updated_at 자동 갱신
+    // Folders 업데이트 시 updated_at 자동 갱신
     connection.execute(
-        "CREATE TRIGGER IF NOT EXISTS update_projects_timestamp 
-         AFTER UPDATE ON projects
+        "CREATE TRIGGER IF NOT EXISTS update_folders_timestamp 
+         AFTER UPDATE ON folders
          FOR EACH ROW
          WHEN NEW.updated_at = OLD.updated_at
          BEGIN
-             UPDATE projects SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+             UPDATE folders SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
          END",
         [],
     )?;

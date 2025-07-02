@@ -1,8 +1,19 @@
+// SQL 상수들을 의존성 순서대로 배치
+pub const SQL_CREATE_TABLE_FOLDERS: &str = "CREATE TABLE IF NOT EXISTS folders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  parent_id INTEGER,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  deleted_at DATETIME,
+  FOREIGN KEY (parent_id) REFERENCES folders(id) ON DELETE CASCADE
+)";
+
 pub const SQL_CREATE_TABLE_NOTES: &str = "CREATE TABLE IF NOT EXISTS notes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   body TEXT NOT NULL DEFAULT '',
   title TEXT NOT NULL,
-  project_id INTEGER,
+  folder_id INTEGER,
   tags TEXT DEFAULT '[]',
   sort_order INTEGER DEFAULT 0,
   parent_note_id INTEGER,
@@ -13,23 +24,8 @@ pub const SQL_CREATE_TABLE_NOTES: &str = "CREATE TABLE IF NOT EXISTS notes (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   deleted_at DATETIME,
-  FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL,
+  FOREIGN KEY (folder_id) REFERENCES folders(id) ON DELETE SET NULL,
   FOREIGN KEY (parent_note_id) REFERENCES notes(id) ON DELETE CASCADE
-)";
-
-pub const SQL_CREATE_TABLE_PROJECTS: &str = "CREATE TABLE IF NOT EXISTS projects (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  description TEXT,
-  color TEXT DEFAULT '#D4B896',
-  icon TEXT DEFAULT 'folder',
-  parent_id INTEGER,
-  sort_order INTEGER DEFAULT 0,
-  is_favorite BOOLEAN DEFAULT FALSE,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  deleted_at DATETIME,
-  FOREIGN KEY (parent_id) REFERENCES projects(id) ON DELETE CASCADE
 )";
 
 pub const SQL_CREATE_TABLE_LINKS: &str = "CREATE TABLE IF NOT EXISTS links (
@@ -70,9 +66,9 @@ pub const SQL_CREATE_TABLE_RECENT_ACTIVITIES: &str =
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   activity_type TEXT NOT NULL,
   note_id INTEGER,
-  project_id INTEGER,
+  folder_id INTEGER,
   metadata TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE,
-  FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+  FOREIGN KEY (folder_id) REFERENCES folders(id) ON DELETE CASCADE
 )";

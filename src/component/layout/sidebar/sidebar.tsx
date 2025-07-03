@@ -4,7 +4,8 @@ import { SidebarItem } from './sidebar-item';
 import SidebarStyle from './sidebar-style';
 
 export default function Sidebar() {
-  const res = invoke('get_note_list');
+  // TODO Type Safety + Command Type 검사 invoke generic
+  const res = invoke('get_sidebar_tree_command');
   res
     .then(r => {
       console.log(JSON.stringify(r, null, 2));

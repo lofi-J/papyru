@@ -18,6 +18,7 @@ export default defineConfig(async () => ({
       '@page': path.resolve('./src/page'),
       '@shared': path.resolve('./src/shared'),
       '@style': path.resolve('./src/style'),
+      '@tauri-types': path.resolve('./src-tauri/src/types'),
     },
   },
 

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, TS)]
-#[ts(export)]
+#[ts(export, export_to = "../src/types/")]
 pub struct Note {
     pub id: i64,
     pub title: String,
@@ -20,7 +20,7 @@ pub struct Note {
 }
 
 #[derive(Debug, Serialize, Deserialize, TS)]
-#[ts(export)]
+#[ts(export, export_to = "../src/types/")]
 pub struct NoteListItem {
     pub id: i64,
     pub title: String,

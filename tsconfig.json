@@ -27,9 +27,11 @@
       "@component/*": ["./src/component/*"],
       "@page/*": ["./src/page/*"],
       "@shared/*": ["./src/shared/*"],
-      "@style/*": ["./src/style/*"]
+      "@style/*": ["./src/style/*"],
+      "@tauri-types/*": ["./src-tauri/src/types/*"],
+      "@tauri-types": ["./src-tauri/src/types"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "src-tauri/src/types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

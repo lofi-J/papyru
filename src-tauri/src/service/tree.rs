@@ -11,10 +11,7 @@ pub fn get_file_tree(connection: &Connection) -> Result<Vec<TreeNode>> {
     let folders = get_all_folders(connection)?;
     let notes = get_all_notes_for_tree(connection)?;
 
-    println!("🔍 폴더 개수: {}, 노트 개수: {}", folders.len(), notes.len());
-
     let tree = build_tree_structure(folders, notes);
-    println!("🌳 최종 트리 노드 개수: {}", tree.len());
     Ok(tree)
 }
 

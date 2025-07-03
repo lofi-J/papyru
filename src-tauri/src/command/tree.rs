@@ -15,14 +15,8 @@ pub async fn get_sidebar_tree_command(
     let conn = connection.lock().await;
 
     match get_file_tree(&*conn) {
-        Ok(tree) => {
-            println!("✅ 사이드바 트리 조회 성공: {} 개 루트 노드", tree.len());
-            Ok(tree)
-        }
-        Err(e) => {
-            eprintln!("❌ 사이드바 트리 조회 실패: {}", e);
-            Err(format!("사이드바 트리를 조회할 수 없습니다: {}", e))
-        }
+        Ok(tree) => Ok(tree),
+        Err(e) => Err(format!("사이드바 트리를 조회할 수 없습니다: {}", e)),
     }
 }
 

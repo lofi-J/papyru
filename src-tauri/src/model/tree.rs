@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, Clone, TS)]
-#[ts(export)]
+#[ts(export, export_to = "../src/types/")]
 #[serde(tag = "type")]
 pub enum TreeNodeType {
     #[serde(rename = "folder")]
@@ -28,7 +28,7 @@ pub enum TreeNodeType {
 }
 
 #[derive(Debug, Serialize, Deserialize, TS)]
-#[ts(export)]
+#[ts(export, export_to = "../src/types/")]
 pub struct TreeNode {
     #[serde(flatten)]
     pub node: TreeNodeType,
@@ -37,7 +37,7 @@ pub struct TreeNode {
 
 // 플랫 리스트용 (성능 최적화)
 #[derive(Debug, Serialize, Deserialize, TS)]
-#[ts(export)]
+#[ts(export, export_to = "../src/types/")]
 pub struct FlatTreeNode {
     #[serde(flatten)]
     pub node: TreeNodeType,
@@ -48,7 +48,7 @@ pub struct FlatTreeNode {
 
 // 폴더 전용 조회용
 #[derive(Debug, Serialize, Deserialize, TS)]
-#[ts(export)]
+#[ts(export, export_to = "../src/types/")]
 pub struct FolderItem {
     pub id: i64,
     pub name: String,
@@ -59,7 +59,7 @@ pub struct FolderItem {
 
 // 노트 전용 조회용
 #[derive(Debug, Serialize, Deserialize, TS)]
-#[ts(export)]
+#[ts(export, export_to = "../src/types/")]
 pub struct NoteItem {
     pub id: i64,
     pub title: String,

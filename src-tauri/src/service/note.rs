@@ -14,13 +14,13 @@ pub fn get_all_notes(connection: &Connection) -> Result<Vec<NoteListItem>> {
 
     let notes_iter = stmt.query_map([], |row| {
         Ok(NoteListItem {
-            id: row.get(0)?,
-            title: row.get(1)?,
-            folder_id: row.get(2)?,
-            is_pinned: row.get(3)?,
-            is_favorite: row.get(4)?,
-            word_count: row.get(5)?,
-            updated_at: row.get(6)?,
+            id: row.get("id")?,
+            title: row.get("title")?,
+            folder_id: row.get("folder_id")?,
+            is_pinned: row.get("is_pinned")?,
+            is_favorite: row.get("is_favorite")?,
+            word_count: row.get("word_count")?,
+            updated_at: row.get("updated_at")?,
         })
     })?;
 
@@ -44,19 +44,19 @@ pub fn get_note_by_id(connection: &Connection, note_id: i64) -> Result<Option<No
 
     let mut note_iter = stmt.query_map([note_id], |row| {
         Ok(Note {
-            id: row.get(0)?,
-            title: row.get(1)?,
-            body: row.get(2)?,
-            folder_id: row.get(3)?,
-            tags: row.get(4)?,
-            sort_order: row.get(5)?,
-            parent_note_id: row.get(6)?,
-            is_pinned: row.get(7)?,
-            is_favorite: row.get(8)?,
-            word_count: row.get(9)?,
-            mood: row.get(10)?,
-            created_at: row.get(11)?,
-            updated_at: row.get(12)?,
+            id: row.get("id")?,
+            title: row.get("title")?,
+            body: row.get("body")?,
+            folder_id: row.get("folder_id")?,
+            tags: row.get("tags")?,
+            sort_order: row.get("sort_order")?,
+            parent_note_id: row.get("parent_note_id")?,
+            is_pinned: row.get("is_pinned")?,
+            is_favorite: row.get("is_favorite")?,
+            word_count: row.get("word_count")?,
+            mood: row.get("mood")?,
+            created_at: row.get("created_at")?,
+            updated_at: row.get("updated_at")?,
         })
     })?;
 

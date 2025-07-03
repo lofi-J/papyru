@@ -31,7 +31,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             get_db_status,
             // feature commands
-            command::note::get_note_list,
+            command::note::get_note_list_command,
+            command::note::get_note_by_id_command,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

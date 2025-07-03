@@ -25,6 +25,30 @@ pub async fn get_note_list_command(
     }
 }
 
+// 기존 노트들의 folder_id를 NULL로 업데이트 (orphaned notes 수정)
+#[tauri::command]
+pub async fn fix_orphaned_notes_command(
+    connection: State<'_, Mutex<Connection>>,
+) -> Result<i64, String> {
+    let conn = connection.lock().await;
+    
+    match conn.execute(
+        "UPDATE notes SET folder_id = NULL 
+         WHERE folder_id IS NOT NULL 
+         AND folder_id NOT IN (SELECT id FROM folders WHERE deleted_at IS NULL)",
+        [],
+    ) {
+        Ok(affected_rows) => {
+            println!("✅ 고아 노트 수정 완료: {} 개", affected_rows);
+            Ok(affected_rows as i64)
+        }
+        Err(e) => {
+            eprintln!("❌ 고아 노트 수정 실패: {}", e);
+            Err(format!("고아 노트를 수정할 수 없습니다: {}", e))
+        }
+    }
+}
+
 #[tauri::command]
 pub async fn get_note_by_id_command(
     connection: State<'_, Mutex<Connection>>,

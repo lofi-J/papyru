@@ -1,20 +1,23 @@
-// src-tauri/src/service/tree.rs
 use rusqlite::{Connection, Result};
 use std::collections::HashMap;
 
 use crate::model::tree::{FlatTreeNode, FolderItem, NoteItem, TreeNode, TreeNodeType};
 
-// 전체 트리 구조 조회 (계층형)
+// =============================================
+// 공개 API 함수들
+// =============================================
+
 pub fn get_file_tree(connection: &Connection) -> Result<Vec<TreeNode>> {
     let folders = get_all_folders(connection)?;
     let notes = get_all_notes_for_tree(connection)?;
 
-    // 트리 구조 빌드
+    println!("🔍 폴더 개수: {}, 노트 개수: {}", folders.len(), notes.len());
+
     let tree = build_tree_structure(folders, notes);
+    println!("🌳 최종 트리 노드 개수: {}", tree.len());
     Ok(tree)
 }
 
-// 플랫 트리 구조 조회 (성능 최적화용)
 pub fn get_flat_file_tree(connection: &Connection) -> Result<Vec<FlatTreeNode>> {
     let folders = get_all_folders(connection)?;
     let notes = get_all_notes_for_tree(connection)?;
@@ -23,16 +26,15 @@ pub fn get_flat_file_tree(connection: &Connection) -> Result<Vec<FlatTreeNode>> 
     Ok(flat_tree)
 }
 
-// 폴더 목록 조회
+// =============================================
+// 데이터베이스 조회 함수들
+// =============================================
+
 fn get_all_folders(connection: &Connection) -> Result<Vec<FolderItem>> {
     let mut stmt = connection.prepare(
-        "SELECT 
-            f.id, 
-            f.name, 
-            f.parent_id, 
-            f.updated_at,
-            (SELECT COUNT(*) FROM folders cf WHERE cf.parent_id = f.id AND cf.deleted_at IS NULL) +
-            (SELECT COUNT(*) FROM notes cn WHERE cn.folder_id = f.id AND cn.deleted_at IS NULL) as children_count
+        "SELECT f.id, f.name, f.parent_id, f.updated_at,
+                (SELECT COUNT(*) FROM folders cf WHERE cf.parent_id = f.id AND cf.deleted_at IS NULL) +
+                (SELECT COUNT(*) FROM notes cn WHERE cn.folder_id = f.id AND cn.deleted_at IS NULL) as children_count
          FROM folders f
          WHERE f.deleted_at IS NULL 
          ORDER BY f.name ASC"
@@ -48,15 +50,9 @@ fn get_all_folders(connection: &Connection) -> Result<Vec<FolderItem>> {
         })
     })?;
 
-    let mut folders: Vec<FolderItem> = vec![];
-    for folder in folder_iter {
-        folders.push(folder?);
-    }
-
-    Ok(folders)
+    folder_iter.collect()
 }
 
-// 트리용 노트 목록 조회
 fn get_all_notes_for_tree(connection: &Connection) -> Result<Vec<NoteItem>> {
     let mut stmt = connection.prepare(
         "SELECT id, title, folder_id, parent_note_id, is_pinned, is_favorite, word_count, updated_at 
@@ -78,138 +74,157 @@ fn get_all_notes_for_tree(connection: &Connection) -> Result<Vec<NoteItem>> {
         })
     })?;
 
-    let mut notes: Vec<NoteItem> = vec![];
-    for note in note_iter {
-        notes.push(note?);
-    }
-
-    Ok(notes)
+    note_iter.collect()
 }
 
-// 계층형 트리 구조 빌드
+// =============================================
+// 트리 구조 빌드 함수들
+// =============================================
+
 fn build_tree_structure(folders: Vec<FolderItem>, notes: Vec<NoteItem>) -> Vec<TreeNode> {
-    // 폴더를 parent_id별로 그룹핑
-    let mut folders_by_parent: HashMap<Option<i64>, Vec<FolderItem>> = HashMap::new();
+    let folders_by_parent = group_folders_by_parent(folders);
+    let notes_by_folder = group_notes_by_folder(notes);
+
+    build_children(None, &folders_by_parent, &notes_by_folder)
+}
+
+fn group_folders_by_parent(folders: Vec<FolderItem>) -> HashMap<Option<i64>, Vec<FolderItem>> {
+    let mut folders_by_parent = HashMap::new();
     for folder in folders {
         folders_by_parent
             .entry(folder.parent_id)
             .or_insert_with(Vec::new)
             .push(folder);
     }
+    folders_by_parent
+}
 
-    // 노트를 folder_id별로 그룹핑
-    let mut notes_by_folder: HashMap<Option<i64>, Vec<NoteItem>> = HashMap::new();
+fn group_notes_by_folder(notes: Vec<NoteItem>) -> HashMap<Option<i64>, Vec<NoteItem>> {
+    let mut notes_by_folder = HashMap::new();
     for note in notes {
         notes_by_folder
             .entry(note.folder_id)
             .or_insert_with(Vec::new)
             .push(note);
     }
-
-    // 재귀적으로 트리 구조 빌드
-    fn build_children(
-        parent_id: Option<i64>,
-        folders_by_parent: &HashMap<Option<i64>, Vec<FolderItem>>,
-        notes_by_folder: &HashMap<Option<i64>, Vec<NoteItem>>,
-    ) -> Vec<TreeNode> {
-        let mut children = Vec::new();
-
-        // 현재 레벨의 폴더들 추가
-        if let Some(current_folders) = folders_by_parent.get(&parent_id) {
-            for folder in current_folders {
-                let mut folder_node = TreeNode {
-                    node: TreeNodeType::Folder {
-                        id: folder.id,
-                        name: folder.name.clone(),
-                        parent_id: folder.parent_id,
-                        children_count: folder.children_count,
-                        updated_at: folder.updated_at.clone(),
-                    },
-                    children: Vec::new(),
-                };
-
-                // 재귀적으로 하위 폴더와 노트 추가
-                folder_node.children =
-                    build_children(Some(folder.id), folders_by_parent, notes_by_folder);
-                children.push(folder_node);
-            }
-        }
-
-        // 현재 레벨의 노트들 추가
-        if let Some(current_notes) = notes_by_folder.get(&parent_id) {
-            for note in current_notes {
-                let note_node = TreeNode {
-                    node: TreeNodeType::Note {
-                        id: note.id,
-                        title: note.title.clone(),
-                        folder_id: note.folder_id,
-                        parent_note_id: note.parent_note_id,
-                        is_pinned: note.is_pinned,
-                        is_favorite: note.is_favorite,
-                        word_count: note.word_count,
-                        updated_at: note.updated_at.clone(),
-                    },
-                    children: Vec::new(),
-                };
-                children.push(note_node);
-            }
-        }
-
-        // 정렬: 폴더 먼저, 그 다음 노트 (핀 여부 고려)
-        children.sort_by(|a, b| match (&a.node, &b.node) {
-            (
-                TreeNodeType::Folder { name: a_name, .. },
-                TreeNodeType::Folder { name: b_name, .. },
-            ) => a_name.cmp(b_name),
-            (TreeNodeType::Folder { .. }, TreeNodeType::Note { .. }) => std::cmp::Ordering::Less,
-            (TreeNodeType::Note { .. }, TreeNodeType::Folder { .. }) => std::cmp::Ordering::Greater,
-            (
-                TreeNodeType::Note {
-                    is_pinned: a_pinned,
-                    title: a_title,
-                    ..
-                },
-                TreeNodeType::Note {
-                    is_pinned: b_pinned,
-                    title: b_title,
-                    ..
-                },
-            ) => match b_pinned.cmp(a_pinned) {
-                std::cmp::Ordering::Equal => a_title.cmp(b_title),
-                other => other,
-            },
-        });
-
-        children
-    }
-
-    // 루트 레벨부터 시작
-    build_children(None, &folders_by_parent, &notes_by_folder)
+    notes_by_folder
 }
 
-// 플랫 구조 빌드 (가상화 렌더링용)
+fn build_children(
+    parent_id: Option<i64>,
+    folders_by_parent: &HashMap<Option<i64>, Vec<FolderItem>>,
+    notes_by_folder: &HashMap<Option<i64>, Vec<NoteItem>>,
+) -> Vec<TreeNode> {
+    let mut children = Vec::new();
+
+    // 폴더 추가
+    if let Some(current_folders) = folders_by_parent.get(&parent_id) {
+        for folder in current_folders {
+            let folder_node = create_folder_node(folder, folders_by_parent, notes_by_folder);
+            children.push(folder_node);
+        }
+    }
+
+    // 노트 추가
+    if let Some(current_notes) = notes_by_folder.get(&parent_id) {
+        for note in current_notes {
+            let note_node = create_note_node(note);
+            children.push(note_node);
+        }
+    }
+
+    sort_children(&mut children);
+    children
+}
+
+fn create_folder_node(
+    folder: &FolderItem,
+    folders_by_parent: &HashMap<Option<i64>, Vec<FolderItem>>,
+    notes_by_folder: &HashMap<Option<i64>, Vec<NoteItem>>,
+) -> TreeNode {
+    let children = build_children(Some(folder.id), folders_by_parent, notes_by_folder);
+
+    TreeNode {
+        node: TreeNodeType::Folder {
+            id: folder.id,
+            name: folder.name.clone(),
+            parent_id: folder.parent_id,
+            children_count: folder.children_count,
+            updated_at: folder.updated_at.clone(),
+        },
+        children,
+    }
+}
+
+fn create_note_node(note: &NoteItem) -> TreeNode {
+    TreeNode {
+        node: TreeNodeType::Note {
+            id: note.id,
+            title: note.title.clone(),
+            folder_id: note.folder_id,
+            parent_note_id: note.parent_note_id,
+            is_pinned: note.is_pinned,
+            is_favorite: note.is_favorite,
+            word_count: note.word_count,
+            updated_at: note.updated_at.clone(),
+        },
+        children: Vec::new(),
+    }
+}
+
+fn sort_children(children: &mut Vec<TreeNode>) {
+    children.sort_by(|a, b| match (&a.node, &b.node) {
+        // 폴더끼리 비교 - 이름순
+        (TreeNodeType::Folder { name: a_name, .. }, TreeNodeType::Folder { name: b_name, .. }) => {
+            a_name.cmp(b_name)
+        }
+        // 폴더가 노트보다 먼저
+        (TreeNodeType::Folder { .. }, TreeNodeType::Note { .. }) => std::cmp::Ordering::Less,
+        (TreeNodeType::Note { .. }, TreeNodeType::Folder { .. }) => std::cmp::Ordering::Greater,
+        // 노트끼리 비교 - 핀 여부 > 제목순
+        (
+            TreeNodeType::Note {
+                is_pinned: a_pinned,
+                title: a_title,
+                ..
+            },
+            TreeNodeType::Note {
+                is_pinned: b_pinned,
+                title: b_title,
+                ..
+            },
+        ) => match b_pinned.cmp(a_pinned) {
+            std::cmp::Ordering::Equal => a_title.cmp(b_title),
+            other => other,
+        },
+    });
+}
+
+// =============================================
+// 플랫 트리 구조 함수들
+// =============================================
+
 fn build_flat_tree_structure(folders: Vec<FolderItem>, notes: Vec<NoteItem>) -> Vec<FlatTreeNode> {
     let tree = build_tree_structure(folders, notes);
     let mut flat_nodes = Vec::new();
 
-    fn flatten_recursive(nodes: &[TreeNode], depth: i32, flat_nodes: &mut Vec<FlatTreeNode>) {
-        for node in nodes {
-            let has_children = !node.children.is_empty();
-
-            flat_nodes.push(FlatTreeNode {
-                node: node.node.clone(),
-                depth,
-                has_children,
-                is_expanded: false, // 초기값, 프론트엔드에서 관리
-            });
-
-            // 재귀적으로 자식 노드 처리
-            if has_children {
-                flatten_recursive(&node.children, depth + 1, flat_nodes);
-            }
-        }
-    }
-
     flatten_recursive(&tree, 0, &mut flat_nodes);
     flat_nodes
+}
+
+fn flatten_recursive(nodes: &[TreeNode], depth: i32, flat_nodes: &mut Vec<FlatTreeNode>) {
+    for node in nodes {
+        let has_children = !node.children.is_empty();
+
+        flat_nodes.push(FlatTreeNode {
+            node: node.node.clone(),
+            depth,
+            has_children,
+            is_expanded: false,
+        });
+
+        if has_children {
+            flatten_recursive(&node.children, depth + 1, flat_nodes);
+        }
+    }
 }

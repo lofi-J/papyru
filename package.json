@@ -10,7 +10,8 @@
     "tauri": "tauri",
     "prettier": "prettier --write src/",
     "lint": "eslint src/**/*.{ts,tsx}",
-    "lint:fix": "eslint src/**/*.{ts,tsx} --fix"
+    "lint:fix": "eslint src/**/*.{ts,tsx} --fix",
+    "codegen": "cd src-tauri && cargo test export_bindings"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",

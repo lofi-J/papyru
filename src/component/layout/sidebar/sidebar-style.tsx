@@ -1,7 +1,6 @@
 import IconChevronDoubleLeft from '@/assets/icon/chevron-double-left.svg?react';
 import IconHamburgerMenu from '@/assets/icon/hamburger-menu.svg?react';
 import {
-  DEFAULT_SIDEBAR_WIDTH,
   MAX_SIDEBAR_WIDTH,
   MIN_SIDEBAR_WIDTH,
 } from '@/shared/constance/layout';
@@ -18,7 +17,7 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
     minWidth: MIN_SIDEBAR_WIDTH,
     maxWidth: MAX_SIDEBAR_WIDTH,
     setWidth: setSidebarWidth,
-    initialWidth: DEFAULT_SIDEBAR_WIDTH,
+    currentWidth: sidebarWidth,
   });
 
   return (

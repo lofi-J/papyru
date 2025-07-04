@@ -4,19 +4,19 @@ interface UseResizeProps {
   minWidth: number;
   maxWidth: number;
   setWidth: (width: number) => void;
-  initialWidth: number;
+  currentWidth: number;
 }
 
 export const useResize = ({
   minWidth,
   maxWidth,
   setWidth,
-  initialWidth,
+  currentWidth,
 }: UseResizeProps) => {
   const resizeHandleRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
-  const startWidth = useRef(initialWidth);
+  const startWidth = useRef(currentWidth);
 
   const handleMouseDown = useCallback(
     (e: MouseEvent) => {
@@ -24,13 +24,13 @@ export const useResize = ({
 
       isDragging.current = true;
       startX.current = e.clientX;
-      startWidth.current = initialWidth;
+      startWidth.current = currentWidth;
 
       document.body.style.cursor = 'col-resize';
 
       e.preventDefault();
     },
-    [initialWidth]
+    [currentWidth]
   );
 
   const handleMouseMove = useCallback(
@@ -38,6 +38,7 @@ export const useResize = ({
       if (!isDragging.current) return;
 
       const deltaX = e.clientX - startX.current;
+      console.log(`deltaX: ${deltaX}`);
       const newWidth = startWidth.current + deltaX;
 
       // 최소/최대 너비 제한

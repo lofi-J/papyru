@@ -1,18 +1,17 @@
 import { ROUTES } from '@/shared/constance/routes';
+import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
-import { useEffect } from 'react';
 import { SidebarItem } from './sidebar-item';
 import SidebarStyle from './sidebar-style';
 
 export default function Sidebar() {
-  useEffect(() => {
-    const res = invoke('get_sidebar_tree_command');
-    res
-      .then(r => {
-        console.log(JSON.stringify(r, null, 2));
-      })
-      .catch(err => console.error(err));
-  }, []);
+  const { data, isLoading } = useQuery({
+    queryKey: ['sidebar'],
+    queryFn: () => invoke('get_sidebar_tree_command'),
+  });
+
+  console.log(JSON.stringify(data, null, 2));
+  console.log(isLoading);
 
   return (
     <SidebarStyle>

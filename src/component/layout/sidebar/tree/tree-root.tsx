@@ -1,11 +1,19 @@
+import { ROUTES } from '@/shared/constance/routes';
 import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
 import { useEffect, useRef } from 'react';
+import { useLocation, useSearchParams } from 'react-router';
 import { useTreeState } from './hooks/useTreeState';
 import { TreeNodeComponent } from './tree-node';
 import { TreeNode } from './types/tree';
 
 export const TreeRoot = () => {
+  const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const isNewFilePage = pathname === ROUTES.NEW_FILE;
+  const currentNewFileTitle = searchParams.get('title') || 'New file';
+
   const {
     data: nodes,
     isLoading,
@@ -80,13 +88,13 @@ export const TreeRoot = () => {
 
   if (error) {
     return (
-      <div className="text-body-2 px-2 py-1 text-red-500">
-        Error loading tree
+      <div className="text-caption-b px-2 py-1 text-red-500">
+        Error Occured...
       </div>
     );
   }
 
-  if (!nodes || nodes.length === 0) {
+  if ((!nodes || nodes.length === 0) && isNewFilePage) {
     return <div className="text-body-2 px-2 py-1">No files found</div>;
   }
 
@@ -128,7 +136,12 @@ export const TreeRoot = () => {
       role="tree"
       className="f-c items-start justify-start w-full"
     >
-      {nodes.map(node => renderNode(node, 0))}
+      {nodes?.map(node => renderNode(node, 0))}
+      {isNewFilePage && (
+        <div className="f-r gap-2 items-center text-body-2 w-full text-left ghost-button-selected">
+          <span className="truncate">{currentNewFileTitle}</span>
+        </div>
+      )}
     </div>
   );
 };

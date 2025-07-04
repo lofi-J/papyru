@@ -38,7 +38,6 @@ export const useResize = ({
       if (!isDragging.current) return;
 
       const deltaX = e.clientX - startX.current;
-      console.log(`deltaX: ${deltaX}`);
       const newWidth = startWidth.current + deltaX;
 
       // 최소/최대 너비 제한

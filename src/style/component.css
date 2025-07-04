@@ -2,9 +2,9 @@
 
 @layer components {
   .ghost-button {
-    @apply bg-transparent rounded-md hover:bg-border-hover cursor-pointer flex items-center outline-none;
+    @apply bg-transparent rounded-md hover:bg-border-hover cursor-pointer flex items-center outline-none text-nowrap truncate;
   }
   .ghost-button-selected {
-    @apply bg-border-hover rounded-md flex items-center outline-none;
+    @apply bg-border-hover rounded-md flex items-center outline-none text-nowrap truncate;
   }
 }

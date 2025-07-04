@@ -34,9 +34,8 @@ pub fn run() {
             command::note::get_note_list_command,
             command::note::get_note_by_id_command,
             command::note::fix_orphaned_notes_command,
-            command::tree::get_sidebar_tree_command, // 중첩 구조 트리 조회
-            command::tree::get_sidebar_flat_tree_command, // 플랫 트리 조회
-            command::tree::get_folder_children_command, // 특정 폴더의 직계 자식만 조회
+            command::tree::get_file_tree_command,
+            command::tree::get_folder_children_command,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -2,14 +2,11 @@
 use rusqlite::Connection;
 use tauri::{async_runtime::Mutex, State};
 
-use crate::{
-    model::tree::{FlatTreeNode, TreeNode},
-    service::tree::{get_file_tree, get_flat_file_tree},
-};
+use crate::{model::tree::TreeNode, service::tree::get_file_tree};
 
 // 계층형 파일 트리 조회 (중첩 구조)
 #[tauri::command]
-pub async fn get_sidebar_tree_command(
+pub async fn get_file_tree_command(
     connection: State<'_, Mutex<Connection>>,
 ) -> Result<Vec<TreeNode>, String> {
     let conn = connection.lock().await;
@@ -17,28 +14,6 @@ pub async fn get_sidebar_tree_command(
     match get_file_tree(&*conn) {
         Ok(tree) => Ok(tree),
         Err(e) => Err(format!("사이드바 트리를 조회할 수 없습니다: {}", e)),
-    }
-}
-
-// 플랫 파일 트리 조회 (가상화용)
-#[tauri::command]
-pub async fn get_sidebar_flat_tree_command(
-    connection: State<'_, Mutex<Connection>>,
-) -> Result<Vec<FlatTreeNode>, String> {
-    let conn = connection.lock().await;
-
-    match get_flat_file_tree(&*conn) {
-        Ok(flat_tree) => {
-            println!(
-                "✅ 플랫 사이드바 트리 조회 성공: {} 개 노드",
-                flat_tree.len()
-            );
-            Ok(flat_tree)
-        }
-        Err(e) => {
-            eprintln!("❌ 플랫 사이드바 트리 조회 실패: {}", e);
-            Err(format!("플랫 사이드바 트리를 조회할 수 없습니다: {}", e))
-        }
     }
 }
 

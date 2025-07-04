@@ -1,7 +1,7 @@
 use rusqlite::{Connection, Result};
 use std::collections::HashMap;
 
-use crate::model::tree::{FlatTreeNode, FolderItem, NoteItem, TreeNode, TreeNodeType};
+use crate::model::tree::{FolderItem, NoteItem, TreeNode, TreeNodeType};
 
 // =============================================
 // 공개 API 함수들
@@ -13,14 +13,6 @@ pub fn get_file_tree(connection: &Connection) -> Result<Vec<TreeNode>> {
 
     let tree = build_tree_structure(folders, notes);
     Ok(tree)
-}
-
-pub fn get_flat_file_tree(connection: &Connection) -> Result<Vec<FlatTreeNode>> {
-    let folders = get_all_folders(connection)?;
-    let notes = get_all_notes_for_tree(connection)?;
-
-    let flat_tree = build_flat_tree_structure(folders, notes);
-    Ok(flat_tree)
 }
 
 // =============================================
@@ -195,33 +187,4 @@ fn sort_children(children: &mut Vec<TreeNode>) {
             other => other,
         },
     });
-}
-
-// =============================================
-// 플랫 트리 구조 함수들
-// =============================================
-
-fn build_flat_tree_structure(folders: Vec<FolderItem>, notes: Vec<NoteItem>) -> Vec<FlatTreeNode> {
-    let tree = build_tree_structure(folders, notes);
-    let mut flat_nodes = Vec::new();
-
-    flatten_recursive(&tree, 0, &mut flat_nodes);
-    flat_nodes
-}
-
-fn flatten_recursive(nodes: &[TreeNode], depth: i32, flat_nodes: &mut Vec<FlatTreeNode>) {
-    for node in nodes {
-        let has_children = !node.children.is_empty();
-
-        flat_nodes.push(FlatTreeNode {
-            node: node.node.clone(),
-            depth,
-            has_children,
-            is_expanded: false,
-        });
-
-        if has_children {
-            flatten_recursive(&node.children, depth + 1, flat_nodes);
-        }
-    }
 }

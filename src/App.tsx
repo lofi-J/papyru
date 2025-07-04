@@ -1,5 +1,5 @@
 import AppLayout from '@/component/layout/app-layout';
-import { Home, Loading, NotFound } from '@/page';
+import { Home, Loading, NoteDetail, NotFound } from '@/page';
 import { ROUTES } from '@/shared/constance/routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
@@ -15,6 +15,7 @@ export default function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path={ROUTES.HOME} element={<Home />} />
+              <Route path={ROUTES.NOTE} element={<NoteDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -13,7 +13,6 @@ export default function AppLayout({ children }: PropsWithChildren) {
 
   return (
     <div className="relative flex h-screen">
-      {/* left-0 sidebar */}
       <Sidebar />
       <main className="flex-1" style={mainStyle}>
         {children}

@@ -4,6 +4,7 @@ import {
   PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -39,17 +40,20 @@ export function SidebarProvider({ children }: PropsWithChildren) {
     return () => window.removeEventListener('resize', handleResize);
   }, [isOpen, sidebarRef]);
 
+  const contextValue = useMemo(
+    () => ({
+      sidebarRef,
+      isOpen,
+      toggleSidebar,
+      setSidebar,
+      sidebarWidth,
+      setSidebarWidth,
+    }),
+    [isOpen, sidebarWidth]
+  );
+
   return (
-    <SidebarContext.Provider
-      value={{
-        sidebarRef,
-        isOpen,
-        toggleSidebar,
-        setSidebar,
-        sidebarWidth,
-        setSidebarWidth,
-      }}
-    >
+    <SidebarContext.Provider value={contextValue}>
       {children}
     </SidebarContext.Provider>
   );

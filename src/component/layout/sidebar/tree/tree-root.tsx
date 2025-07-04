@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
+import { useEffect, useRef } from 'react';
 import { useTreeState } from './hooks/useTreeState';
 import { TreeNodeComponent } from './tree-node';
 import { TreeNode } from './types/tree';
-import { useEffect, useRef } from 'react';
 
 export const TreeRoot = () => {
   const {
@@ -18,30 +18,31 @@ export const TreeRoot = () => {
   const treeState = useTreeState();
   const treeRef = useRef<HTMLDivElement>(null);
 
-  // Don't auto-focus any element initially
-  // User should click or use Tab to start navigation
-
-  // Build flat node list for keyboard navigation
+  // 키보드 탐색을 위함
   const buildFlatNodeList = (nodes: TreeNode[]): string[] => {
     const flatList: string[] = [];
-    
+
     const traverse = (nodeList: TreeNode[]) => {
       nodeList.forEach(node => {
         const nodeId = `${node.type}-${node.id}`;
         flatList.push(nodeId);
-        
-        // Include children if node is expanded
-        if (node.type === 'folder' && treeState.expandedNodes.has(nodeId) && node.children) {
+
+        // 노드가 확장되어 있으면 자식 노드도 포함
+        if (
+          node.type === 'folder' &&
+          treeState.expandedNodes.has(nodeId) &&
+          node.children
+        ) {
           traverse(node.children);
         }
       });
     };
-    
+
     traverse(nodes);
     return flatList;
   };
 
-  // Update flat node list when nodes or expanded state changes
+  // 노드 또는 확장 상태가 변경될 때 플랫 노드 리스트 업데이트
   useEffect(() => {
     if (nodes) {
       const flatNodeList = buildFlatNodeList(nodes);
@@ -49,10 +50,10 @@ export const TreeRoot = () => {
     }
   }, [nodes, treeState.expandedNodes, treeState.updateFlatNodeList]);
 
-  // Global keyboard event handler for the tree
+  // 트리에 대한 전역 키보드 이벤트 핸들러
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Only handle events when tree is focused
+      // 트리가 포커스되어 있을 때만 이벤트 처리
       if (!treeRef.current?.contains(document.activeElement)) {
         return;
       }
@@ -122,7 +123,11 @@ export const TreeRoot = () => {
   };
 
   return (
-    <div ref={treeRef} role="tree" className="f-c items-start justify-start w-full">
+    <div
+      ref={treeRef}
+      role="tree"
+      className="f-c items-start justify-start w-full"
+    >
       {nodes.map(node => renderNode(node, 0))}
     </div>
   );

@@ -10,7 +10,7 @@ export const useTreeState = (
     navigateToParent: () => void;
   } => {
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(
-    new Set(initialExpandedNodes)
+    () => new Set(initialExpandedNodes)
   );
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [focusedNode, setFocusedNode] = useState<string | null>(null);
@@ -49,8 +49,7 @@ export const useTreeState = (
   }, []);
 
   const expandAll = useCallback(() => {
-    // This would need to be implemented based on all available nodes
-    // For now, it's a placeholder
+    // 추후 구현
   }, []);
 
   const collapseAll = useCallback(() => {
@@ -99,17 +98,17 @@ export const useTreeState = (
 
   const navigateToParent = useCallback(() => {
     if (!focusedNode) return;
-    
-    // Find parent folder in the flat node list
+
+    // 플랫 노드 리스트에서 부모 폴더 찾기
     const currentIndex = flatNodeListRef.current.indexOf(focusedNode);
     if (currentIndex <= 0) return;
-    
-    // Look backwards to find the nearest folder at a shallower depth
+
+    // 더 얕은 깊이의 가장 가까운 폴더 찾기
     for (let i = currentIndex - 1; i >= 0; i--) {
       const nodeId = flatNodeListRef.current[i];
       if (nodeId.startsWith('folder-')) {
         setFocusedNode(nodeId);
-        
+
         // Focus the actual DOM element
         const element = document.querySelector(
           `[data-node-id="${nodeId}"]`
@@ -122,7 +121,7 @@ export const useTreeState = (
     }
   }, [focusedNode]);
 
-  // Function to update the flat node list (to be called from TreeRoot)
+  // 플랫 노드 리스트 업데이트 (TreeRoot에서 호출)
   const updateFlatNodeList = useCallback((nodes: string[]) => {
     flatNodeListRef.current = nodes;
   }, []);

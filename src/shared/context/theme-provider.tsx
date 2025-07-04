@@ -3,6 +3,7 @@ import {
   PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 
@@ -56,8 +57,13 @@ export function ThemeProvider({ children }: PropsWithChildren) {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
+  const contextValue = useMemo(
+    () => ({ theme, toggleTheme, isSystemDark }),
+    [theme, isSystemDark]
+  );
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isSystemDark }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );

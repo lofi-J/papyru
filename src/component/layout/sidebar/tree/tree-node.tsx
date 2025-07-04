@@ -12,8 +12,7 @@ interface TreeNodeComponentProps {
   isSelected: boolean;
   isFocused: boolean;
   onFocus: (nodeId: string) => void;
-  onNavigateUp: () => void;
-  onNavigateDown: () => void;
+  onNavigateToParent: () => void;
   onClearSelection: () => void;
   renderChildren?: (childNodes: TreeNode[]) => JSX.Element[];
 }
@@ -27,8 +26,7 @@ export const TreeNodeComponent = ({
   isSelected,
   isFocused,
   onFocus,
-  onNavigateUp,
-  onNavigateDown,
+  onNavigateToParent,
   onClearSelection,
   renderChildren,
 }: TreeNodeComponentProps) => {
@@ -41,12 +39,9 @@ export const TreeNodeComponent = ({
         depth={depth}
         isExpanded={isExpanded}
         onToggle={onToggle}
-        onSelect={onSelect}
         isSelected={isSelected}
         isFocused={isFocused}
         onFocus={onFocus}
-        onNavigateUp={onNavigateUp}
-        onNavigateDown={onNavigateDown}
         renderChildren={renderChildren}
       />
     );
@@ -61,8 +56,7 @@ export const TreeNodeComponent = ({
         isSelected={isSelected}
         isFocused={isFocused}
         onFocus={onFocus}
-        onNavigateUp={onNavigateUp}
-        onNavigateDown={onNavigateDown}
+        onNavigateToParent={onNavigateToParent}
         onClearSelection={onClearSelection}
       />
     );

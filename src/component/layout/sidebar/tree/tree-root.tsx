@@ -112,8 +112,7 @@ export const TreeRoot = () => {
         isSelected={isSelected}
         isFocused={isFocused}
         onFocus={treeState.focusNode}
-        onNavigateUp={treeState.navigateUp}
-        onNavigateDown={treeState.navigateDown}
+        onNavigateToParent={treeState.navigateToParent}
         onClearSelection={treeState.clearSelection}
         renderChildren={(childNodes: TreeNode[]) =>
           childNodes.map(childNode => renderNode(childNode, depth + 1))

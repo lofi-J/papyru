@@ -1,7 +1,14 @@
-import { useState, useCallback, useRef } from 'react';
-import { TreeState, TreeActions, TreeNode } from '../types/tree';
+import { useCallback, useRef, useState } from 'react';
+import { TreeActions, TreeState } from '../types/tree';
 
-export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & TreeActions & { updateFlatNodeList: (nodes: string[]) => void; clearSelection: () => void } => {
+export const useTreeState = (
+  initialExpandedNodes: string[] = []
+): TreeState &
+  TreeActions & {
+    updateFlatNodeList: (nodes: string[]) => void;
+    clearSelection: () => void;
+    navigateToParent: () => void;
+  } => {
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(
     new Set(initialExpandedNodes)
   );
@@ -55,18 +62,17 @@ export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & T
   }, []);
 
   const navigateUp = useCallback(() => {
-    console.log('Navigate up called, focusedNode:', focusedNode, 'flatList:', flatNodeListRef.current);
     if (!focusedNode || flatNodeListRef.current.length === 0) return;
-    
+
     const currentIndex = flatNodeListRef.current.indexOf(focusedNode);
-    console.log('Current index:', currentIndex);
     if (currentIndex > 0) {
       const prevNodeId = flatNodeListRef.current[currentIndex - 1];
-      console.log('Moving to:', prevNodeId);
       setFocusedNode(prevNodeId);
-      
+
       // Focus the actual DOM element
-      const element = document.querySelector(`[data-node-id="${prevNodeId}"]`) as HTMLElement;
+      const element = document.querySelector(
+        `[data-node-id="${prevNodeId}"]`
+      ) as HTMLElement;
       if (element) {
         element.focus();
       }
@@ -74,20 +80,44 @@ export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & T
   }, [focusedNode]);
 
   const navigateDown = useCallback(() => {
-    console.log('Navigate down called, focusedNode:', focusedNode, 'flatList:', flatNodeListRef.current);
     if (!focusedNode || flatNodeListRef.current.length === 0) return;
-    
+
     const currentIndex = flatNodeListRef.current.indexOf(focusedNode);
-    console.log('Current index:', currentIndex);
     if (currentIndex < flatNodeListRef.current.length - 1) {
       const nextNodeId = flatNodeListRef.current[currentIndex + 1];
-      console.log('Moving to:', nextNodeId);
       setFocusedNode(nextNodeId);
-      
+
       // Focus the actual DOM element
-      const element = document.querySelector(`[data-node-id="${nextNodeId}"]`) as HTMLElement;
+      const element = document.querySelector(
+        `[data-node-id="${nextNodeId}"]`
+      ) as HTMLElement;
       if (element) {
         element.focus();
+      }
+    }
+  }, [focusedNode]);
+
+  const navigateToParent = useCallback(() => {
+    if (!focusedNode) return;
+    
+    // Find parent folder in the flat node list
+    const currentIndex = flatNodeListRef.current.indexOf(focusedNode);
+    if (currentIndex <= 0) return;
+    
+    // Look backwards to find the nearest folder at a shallower depth
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      const nodeId = flatNodeListRef.current[i];
+      if (nodeId.startsWith('folder-')) {
+        setFocusedNode(nodeId);
+        
+        // Focus the actual DOM element
+        const element = document.querySelector(
+          `[data-node-id="${nodeId}"]`
+        ) as HTMLElement;
+        if (element) {
+          element.focus();
+        }
+        break;
       }
     }
   }, [focusedNode]);
@@ -111,6 +141,7 @@ export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & T
     focusNode,
     navigateUp,
     navigateDown,
+    navigateToParent,
     updateFlatNodeList,
   };
 };

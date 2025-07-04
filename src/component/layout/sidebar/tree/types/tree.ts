@@ -28,5 +28,6 @@ export type TreeActions = {
   focusNode: (nodeId: string) => void;
   navigateUp: () => void;
   navigateDown: () => void;
+  navigateToParent: () => void;
   updateFlatNodeList: (nodes: string[]) => void;
 };

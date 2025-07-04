@@ -11,8 +11,7 @@ interface TreeFileProps {
   isSelected: boolean;
   isFocused: boolean;
   onFocus: (nodeId: string) => void;
-  onNavigateUp: () => void;
-  onNavigateDown: () => void;
+  onNavigateToParent: () => void;
   onClearSelection: () => void;
 }
 
@@ -23,8 +22,7 @@ export const TreeFile = ({
   isSelected,
   isFocused,
   onFocus,
-  onNavigateUp,
-  onNavigateDown,
+  onNavigateToParent,
   onClearSelection,
 }: TreeFileProps) => {
   const { nodeId, displayName, navigationPath } = useTreeNode(node);
@@ -53,6 +51,10 @@ export const TreeFile = ({
         event.preventDefault();
         handleSelect();
         break;
+      case 'ArrowLeft':
+        event.preventDefault();
+        onNavigateToParent();
+        break;
     }
   };
 
@@ -63,7 +65,7 @@ export const TreeFile = ({
       data-node-id={nodeId}
       className={clsx(
         'f-r gap-2 items-center text-body-2 w-full text-left ghost-button',
-        (isSelected || isFocused) && 'ghost-button-selected'
+        isFocused && 'ghost-button-selected'
       )}
       style={{ paddingLeft: `${depth * 16 + 24}px` }}
       onClick={handleSelect}

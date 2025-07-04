@@ -9,12 +9,9 @@ interface TreeFolderProps {
   depth: number;
   isExpanded: boolean;
   onToggle: (nodeId: string) => void;
-  onSelect: (nodeId: string) => void;
   isSelected: boolean;
   isFocused: boolean;
   onFocus: (nodeId: string) => void;
-  onNavigateUp: () => void;
-  onNavigateDown: () => void;
   renderChildren?: (childNodes: TreeNode[]) => JSX.Element[];
 }
 
@@ -23,12 +20,9 @@ export const TreeFolder = ({
   depth,
   isExpanded,
   onToggle,
-  onSelect,
   isSelected,
   isFocused,
   onFocus,
-  onNavigateUp,
-  onNavigateDown,
   renderChildren,
 }: TreeFolderProps) => {
   const { nodeId, hasChildren, displayName } = useTreeNode(node);
@@ -72,7 +66,7 @@ export const TreeFolder = ({
         data-node-id={nodeId}
         className={clsx(
           'f-r gap-1 items-center text-body-2 w-full text-left ghost-button',
-          (isSelected || isFocused) && 'ghost-button-selected'
+          isFocused && 'ghost-button-selected'
         )}
         style={{ paddingLeft: `${depth * 16 + 8}px` }}
         onClick={handleToggle}

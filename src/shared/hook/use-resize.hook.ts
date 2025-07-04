@@ -26,8 +26,6 @@ export const useResize = ({
       startX.current = e.clientX;
       startWidth.current = initialWidth;
 
-      // 드래그 중 텍스트 선택 방지
-      document.body.style.userSelect = 'none';
       document.body.style.cursor = 'col-resize';
 
       e.preventDefault();

@@ -6,6 +6,7 @@
     background-color: var(--background);
   }
   * {
+    @apply select-none;
     font-family: var(--font-hahmlet);
 
     /* 색상 전환 효과 */

@@ -20,6 +20,7 @@ export type TreeState = {
 export type TreeActions = {
   toggleNode: (nodeId: string) => void;
   selectNode: (nodeId: string) => void;
+  clearSelection: () => void;
   expandNode: (nodeId: string) => void;
   collapseNode: (nodeId: string) => void;
   expandAll: () => void;

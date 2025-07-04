@@ -1,6 +1,6 @@
 import FileIcon from '@/assets/icon/file.svg?react';
 import clsx from 'clsx';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useTreeNode } from './hooks/useTreeNode';
 import { TreeNode } from './types/tree';
 
@@ -13,6 +13,7 @@ interface TreeFileProps {
   onFocus: (nodeId: string) => void;
   onNavigateUp: () => void;
   onNavigateDown: () => void;
+  onClearSelection: () => void;
 }
 
 export const TreeFile = ({
@@ -24,11 +25,21 @@ export const TreeFile = ({
   onFocus,
   onNavigateUp,
   onNavigateDown,
+  onClearSelection,
 }: TreeFileProps) => {
   const { nodeId, displayName, navigationPath } = useTreeNode(node);
+  const navigate = useNavigate();
 
   const handleSelect = () => {
     onSelect(nodeId);
+    // Navigate to the file if it has a navigation path
+    if (navigationPath) {
+      navigate(navigationPath);
+      // Clear selection after navigation
+      setTimeout(() => {
+        onClearSelection();
+      }, 100);
+    }
   };
 
   const handleFocus = () => {

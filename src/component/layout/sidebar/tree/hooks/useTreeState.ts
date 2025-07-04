@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { TreeState, TreeActions, TreeNode } from '../types/tree';
 
-export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & TreeActions & { updateFlatNodeList: (nodes: string[]) => void } => {
+export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & TreeActions & { updateFlatNodeList: (nodes: string[]) => void; clearSelection: () => void } => {
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(
     new Set(initialExpandedNodes)
   );
@@ -23,6 +23,10 @@ export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & T
 
   const selectNode = useCallback((nodeId: string) => {
     setSelectedNode(nodeId);
+  }, []);
+
+  const clearSelection = useCallback(() => {
+    setSelectedNode(null);
   }, []);
 
   const expandNode = useCallback((nodeId: string) => {
@@ -99,6 +103,7 @@ export const useTreeState = (initialExpandedNodes: string[] = []): TreeState & T
     focusedNode,
     toggleNode,
     selectNode,
+    clearSelection,
     expandNode,
     collapseNode,
     expandAll,

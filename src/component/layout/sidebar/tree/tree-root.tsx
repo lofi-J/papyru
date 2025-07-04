@@ -18,21 +18,8 @@ export const TreeRoot = () => {
   const treeState = useTreeState();
   const treeRef = useRef<HTMLDivElement>(null);
 
-  // Initialize focus to first node when nodes are loaded
-  useEffect(() => {
-    if (nodes && nodes.length > 0 && !treeState.focusedNode) {
-      const firstNodeId = `${nodes[0].type}-${nodes[0].id}`;
-      treeState.focusNode(firstNodeId);
-      
-      // Also focus the DOM element
-      setTimeout(() => {
-        const element = document.querySelector(`[data-node-id="${firstNodeId}"]`) as HTMLElement;
-        if (element) {
-          element.focus();
-        }
-      }, 100);
-    }
-  }, [nodes, treeState.focusedNode, treeState.focusNode]);
+  // Don't auto-focus any element initially
+  // User should click or use Tab to start navigation
 
   // Build flat node list for keyboard navigation
   const buildFlatNodeList = (nodes: TreeNode[]): string[] => {
@@ -127,6 +114,7 @@ export const TreeRoot = () => {
         onFocus={treeState.focusNode}
         onNavigateUp={treeState.navigateUp}
         onNavigateDown={treeState.navigateDown}
+        onClearSelection={treeState.clearSelection}
         renderChildren={(childNodes: TreeNode[]) =>
           childNodes.map(childNode => renderNode(childNode, depth + 1))
         }

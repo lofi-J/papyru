@@ -31,6 +31,20 @@ export const TreeRoot = () => {
   const treeState = useTreeState();
   const treeRef = useRef<HTMLDivElement>(null);
 
+  // 새 파일 생성 시 포커싱 해제
+  useEffect(() => {
+    if (isNewFilePage) {
+      treeState.clearFocus();
+    }
+  }, [isNewFilePage, treeState.clearFocus]);
+
+  // 새 폴더 생성 시 포커싱 해제
+  useEffect(() => {
+    if (isNewFolderMode) {
+      treeState.clearFocus();
+    }
+  }, [isNewFolderMode, treeState.clearFocus]);
+
   // 키보드 탐색을 위함
   const buildFlatNodeList = (nodes: TreeNode[]): string[] => {
     const flatList: string[] = [];
@@ -142,6 +156,7 @@ export const TreeRoot = () => {
       className="f-c items-start justify-start w-full gap-1"
     >
       <TreeControlPannel
+        treeActions={treeState}
         onExpandAll={treeState.expandAll}
         onCollapseAll={treeState.collapseAll}
         onNewFolder={() => setIsNewFolderMode(true)}

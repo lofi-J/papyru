@@ -36,6 +36,10 @@ export const useTreeState = (
     setSelectedNode(null);
   }, []);
 
+  const clearFocus = useCallback(() => {
+    setFocusedNode(null);
+  }, []);
+
   const expandNode = useCallback((nodeId: string) => {
     setExpandedNodes(prev => new Set(prev).add(nodeId));
   }, []);
@@ -139,6 +143,7 @@ export const useTreeState = (
     toggleNode,
     selectNode,
     clearSelection,
+    clearFocus,
     expandNode,
     collapseNode,
     expandAll,

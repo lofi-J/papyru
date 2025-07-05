@@ -21,6 +21,7 @@ export type TreeActions = {
   toggleNode: (nodeId: string) => void;
   selectNode: (nodeId: string) => void;
   clearSelection: () => void;
+  clearFocus: () => void;
   expandNode: (nodeId: string) => void;
   collapseNode: (nodeId: string) => void;
   expandAll: () => void;

@@ -4,17 +4,20 @@ import NewFileIcon from '@/assets/icon/new-file.svg?react';
 import NewFolderIcon from '@/assets/icon/new-folder.svg?react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { TreeActions } from './types/tree';
 
 interface TreeControlPannelProps {
   onExpandAll?: () => void;
   onCollapseAll?: () => void;
   onNewFolder: () => void;
+  treeActions: TreeActions;
 }
 
 export const TreeControlPannel = ({
   onExpandAll,
   onCollapseAll,
   onNewFolder,
+  treeActions,
 }: TreeControlPannelProps) => {
   const navigate = useNavigate();
   const [isCollapse, setIsCollapse] = useState(false);
@@ -29,10 +32,12 @@ export const TreeControlPannel = ({
   };
 
   const newFile = () => {
+    treeActions?.clearFocus();
     navigate('/note/new-file');
   };
 
   const newFolder = () => {
+    treeActions?.clearFocus();
     onNewFolder?.();
   };
 

@@ -58,7 +58,7 @@ export const TreeFolder = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="f-c gap-0.5 w-full">
       <button
         role="treeitem"
         aria-expanded={hasChildren ? isExpanded : undefined}

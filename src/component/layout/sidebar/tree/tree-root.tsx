@@ -1,19 +1,23 @@
 import { ROUTES } from '@/shared/constance/routes';
 import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
-import { useEffect, useRef } from 'react';
-import { useLocation, useSearchParams } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
 import { useTreeState } from './hooks/useTreeState';
 import { TreeControlPannel } from './tree-control-pannel';
+import { TreeNewFileUI } from './tree-file-ui';
+import { TreeFolderInput } from './tree-folder-input';
 import { TreeNodeComponent } from './tree-node';
 import { TreeNode } from './types/tree';
 
 export const TreeRoot = () => {
   const { pathname } = useLocation();
-  const [searchParams] = useSearchParams();
 
+  // file
   const isNewFilePage = pathname === ROUTES.NEW_FILE;
-  const currentNewFileTitle = searchParams.get('title') || 'New file';
+
+  // folder
+  const [isNewFolderMode, setIsNewFolderMode] = useState(false);
 
   const {
     data: nodes,
@@ -137,16 +141,26 @@ export const TreeRoot = () => {
       role="tree"
       className="f-c items-start justify-start w-full gap-1"
     >
-      <TreeControlPannel 
+      <TreeControlPannel
         onExpandAll={treeState.expandAll}
         onCollapseAll={treeState.collapseAll}
+        onNewFolder={() => setIsNewFolderMode(true)}
       />
-      {nodes?.map(node => renderNode(node, 0))}
-      {isNewFilePage && (
-        <div className="f-r gap-2 items-center text-body-2 w-full text-left ghost-button-selected">
-          <span className="truncate">{currentNewFileTitle}</span>
-        </div>
+
+      {/* 새 폴더 생성 시도 중 트리 구조 상단에 UI 표시 */}
+      {isNewFolderMode && (
+        <TreeFolderInput
+          onConfirm={() => setIsNewFolderMode(false)}
+          onCancel={() => setIsNewFolderMode(false)}
+          depth={0}
+        />
       )}
+
+      {/* 트리 구조 노드 렌더링 */}
+      {nodes?.map(node => renderNode(node, 0))}
+
+      {/* 새 파일 생성 시도 중 트리 구조 하단에 UI 표시 */}
+      {isNewFilePage && <TreeNewFileUI depth={0} />}
     </div>
   );
 };

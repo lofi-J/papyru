@@ -67,7 +67,7 @@ export const TreeFile = ({
         'f-r gap-2 items-center text-body-2 w-full text-left ghost-button',
         isFocused && 'ghost-button-selected'
       )}
-      style={{ paddingLeft: `${depth * 16 + 24}px` }}
+      style={{ paddingLeft: `${depth * 16 + 24 + 4}px` }}
       onClick={handleSelect}
       onFocus={handleFocus}
       onKeyDown={handleKeyDown}

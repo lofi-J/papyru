@@ -31,7 +31,7 @@ pub async fn fix_orphaned_notes_command(
     connection: State<'_, Mutex<Connection>>,
 ) -> Result<i64, String> {
     let conn = connection.lock().await;
-    
+
     match conn.execute(
         "UPDATE notes SET folder_id = NULL 
          WHERE folder_id IS NOT NULL 

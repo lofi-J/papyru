@@ -49,7 +49,13 @@ export const useTreeState = (
   }, []);
 
   const expandAll = useCallback(() => {
-    // 추후 구현
+    if (flatNodeListRef.current.length === 0) return;
+    
+    const allFolderNodes = flatNodeListRef.current.filter(nodeId => 
+      nodeId.startsWith('folder-')
+    );
+    
+    setExpandedNodes(new Set(allFolderNodes));
   }, []);
 
   const collapseAll = useCallback(() => {

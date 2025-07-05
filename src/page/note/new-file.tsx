@@ -1,3 +1,4 @@
+import FileLayout from '@/component/layout/note/file-layout';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -22,7 +23,7 @@ export default function NewFilePage() {
   }, [title, setSearchParams, searchParams]);
 
   return (
-    <div>
+    <FileLayout>
       <input
         type="text"
         value={title}
@@ -30,6 +31,6 @@ export default function NewFilePage() {
         placeholder="Title"
         className="w-full p-2 border border-gray-300 rounded-md"
       />
-    </div>
+    </FileLayout>
   );
 }

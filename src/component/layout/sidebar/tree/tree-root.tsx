@@ -4,6 +4,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 import { useTreeState } from './hooks/useTreeState';
+import { TreeControlPannel } from './tree-control-pannel';
 import { TreeNodeComponent } from './tree-node';
 import { TreeNode } from './types/tree';
 
@@ -134,8 +135,12 @@ export const TreeRoot = () => {
     <div
       ref={treeRef}
       role="tree"
-      className="f-c items-start justify-start w-full"
+      className="f-c items-start justify-start w-full gap-1"
     >
+      <TreeControlPannel 
+        onExpandAll={treeState.expandAll}
+        onCollapseAll={treeState.collapseAll}
+      />
       {nodes?.map(node => renderNode(node, 0))}
       {isNewFilePage && (
         <div className="f-r gap-2 items-center text-body-2 w-full text-left ghost-button-selected">

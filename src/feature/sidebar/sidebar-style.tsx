@@ -26,7 +26,10 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
     <>
       <div
         ref={sidebarRef}
-        className="fixed top-0 bottom-0 left-0 h-screen px-2"
+        className={clsx(
+          'fixed top-0 bottom-0 left-0 h-screen px-2 bg-background',
+          isOpen ? 'w-[200px] border-r-[2px] border-border-hover' : 'w-[0px]'
+        )}
         style={{
           width: isOpen ? `${sidebarWidth}px` : '0px',
         }}
@@ -95,7 +98,7 @@ const ReSizeHandle = forwardRef<HTMLDivElement, { isVisible: boolean }>(
           onMouseEnter={mouseEnter}
           onMouseLeave={mouseLeave}
           className={clsx(
-            'w-[3px] h-full translate-x-[1.5px] bg-border z-40',
+            'w-[3px] h-full translate-x-[3px] bg-border z-40',
             isHover && 'cursor-col-resize bg-border-hover'
           )}
         />

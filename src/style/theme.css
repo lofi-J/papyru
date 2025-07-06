@@ -11,9 +11,35 @@
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-background: var(--background);
+  --color-background-darker: color-mix(
+    in srgb,
+    var(--background) 95%,
+    black 10%
+  );
   --color-border: var(--border);
   --color-border-hover: var(--border-hover);
   --color-header-background: var(--header-background);
+
+  /* shadcn 변수들 */
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--text);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--text);
+  --color-destructive: #e11d48;
+  --color-destructive-foreground: #ffffff;
+  --color-muted: var(--border);
+  --color-muted-foreground: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--text);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--text);
+  --color-card: var(--background);
+  --color-card-foreground: var(--text);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--accent);
+  --color-foreground: var(--text);
+  --radius: 0.375rem;
 }
 
 :root {
@@ -26,6 +52,27 @@
   --accent: #d4b896; /* 악센트 컬러 */
   --surface: #f4e4bc; /* 표면 색상 */
   --border: #c9b88a; /* 보더 컬러 */
+
+  /* shadcn 변수들 */
+  --primary: var(--accent); /* badge default variant */
+  --primary-foreground: var(--text);
+  --secondary: var(--secondary);
+  --secondary-foreground: var(--text);
+  --destructive: #e11d48; /* 빨간색 - 삭제/경고용 */
+  --destructive-foreground: #ffffff;
+  --muted: var(--border);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--accent);
+  --accent-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --card: var(--background);
+  --card-foreground: var(--text);
+  --border: var(--border);
+  --input: var(--border);
+  --ring: var(--accent); /* 포커스 링 색상 */
+  --foreground: var(--text);
+  --radius: 0.375rem; /* 기본 border-radius */
 }
 
 /* 다크 모드 (어두운 종이 질감) */
@@ -37,4 +84,25 @@
   --border: #3b342d;
   --border-hover: #4b423a;
   --header-background: #202125;
+
+  /* shadcn 변수들 - 다크모드 */
+  --primary: var(--accent);
+  --primary-foreground: var(--text);
+  --secondary: #3b342d;
+  --secondary-foreground: var(--text);
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
+  --muted: var(--border);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--accent);
+  --accent-foreground: var(--text);
+  --popover: #202125;
+  --popover-foreground: var(--text);
+  --card: #282828;
+  --card-foreground: var(--text);
+  --border: var(--border);
+  --input: var(--border);
+  --ring: var(--accent);
+  --foreground: var(--text);
+  --radius: 0.375rem;
 }

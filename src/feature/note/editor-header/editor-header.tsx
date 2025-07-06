@@ -1,3 +1,4 @@
+import { Badge } from '@/component/badge';
 import { Note } from '@tauri-types/Note';
 import { EditorHeaderFavorite } from './editor-header-favorite';
 
@@ -9,9 +10,9 @@ export const EditorHeader = ({ note }: EditorHeaderProps) => {
       data-selectable="false"
       className="f-r items-center justify-between w-full"
     >
-      <span className="text-small-b text-gray-500 max-w-[100px] truncate">
+      <Badge variant="secondary" className="max-w-[150px] truncate">
         {note.title}
-      </span>
+      </Badge>
       <EditorHeaderFavorite note={note} />
     </div>
   );

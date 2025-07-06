@@ -1,3 +1,4 @@
+import { NOTE_QUERY_KEY } from '@/component/feature/note/hooks/use-note-manager';
 import { ROUTES } from '@/shared/constance/routes';
 import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
@@ -24,7 +25,7 @@ export const TreeRoot = () => {
     isLoading,
     error,
   } = useQuery<TreeNode[]>({
-    queryKey: ['file-tree'],
+    queryKey: [NOTE_QUERY_KEY.FILE_TREE],
     queryFn: () => invoke('get_file_tree_command'),
   });
 

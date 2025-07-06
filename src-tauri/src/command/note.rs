@@ -2,8 +2,8 @@ use rusqlite::{Connection, Result};
 use tauri::{async_runtime::Mutex, State};
 
 use crate::{
-    model::{Note, NoteListItem},
-    service::note::{get_all_notes, get_note_by_id},
+    model::note::{MutationResult, Note, NoteListItem, ToggleFavoriteResult},
+    service::note::{get_all_notes, get_note_by_id, toggle_favorite},
 };
 
 #[tauri::command]
@@ -71,6 +71,47 @@ pub async fn get_note_by_id_command(
         Err(error) => {
             eprintln!("❌ 노트 상세 조회 실패: {}", error);
             Err(format!("노트 상세를 조회할 수 없습니다: {}", error))
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn toggle_favorite_command(
+    connection: State<'_, Mutex<Connection>>,
+    note_id: i64,
+) -> Result<MutationResult<ToggleFavoriteResult>, String> {
+    let conn = connection.lock().await;
+
+    match toggle_favorite(&*conn, note_id) {
+        Ok(result) => {
+            println!(
+                "✅ 즐겨찾기 토글 성공: 노트 ID {}, 현재: {}",
+                result.note_id, result.is_favorite
+            );
+
+            Ok(MutationResult {
+                success: true,
+                message: format!(
+                    "즐겨찾기가 {}로 변경되었습니다",
+                    if result.is_favorite {
+                        "추가"
+                    } else {
+                        "해제"
+                    }
+                ),
+                data: Some(result),
+                error: None,
+            })
+        }
+        Err(e) => {
+            eprintln!("❌ 즐겨찾기 토글 실패: {}", e);
+
+            Ok(MutationResult {
+                success: false,
+                message: "즐겨찾기 토글에 실패했습니다".to_string(),
+                data: None,
+                error: Some(format!("즐겨찾기 토글 실패: {}", e)),
+            })
         }
     }
 }

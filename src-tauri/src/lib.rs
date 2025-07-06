@@ -34,6 +34,7 @@ pub fn run() {
             command::note::get_note_list_command,
             command::note::get_note_by_id_command,
             command::note::fix_orphaned_notes_command,
+            command::note::toggle_favorite_command,
             command::tree::get_file_tree_command,
             command::tree::get_folder_children_command,
         ])

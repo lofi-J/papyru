@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 
 export default function EditorMain({ children }: PropsWithChildren) {
   return (
-    <div data-editor="true" className="w-full h-full editor-main">
+    <div data-selectable="true" className="w-full h-full">
       {children}
     </div>
   );

@@ -1,6 +1,6 @@
 use rusqlite::{Connection, Result};
 
-use crate::model::{Note, NoteListItem};
+use crate::model::note::{Note, NoteListItem, ToggleFavoriteResult};
 
 // 삭제되지 않은 모든 노트(단순화 노트) 조회
 pub fn get_all_notes(connection: &Connection) -> Result<Vec<NoteListItem>> {
@@ -64,4 +64,26 @@ pub fn get_note_by_id(connection: &Connection, note_id: i64) -> Result<Option<No
         Some(note) => Ok(Some(note?)),
         None => Ok(None),
     }
+}
+
+// 노트 즐겨찾기 토글
+pub fn toggle_favorite(connection: &Connection, note_id: i64) -> Result<ToggleFavoriteResult> {
+    // 현재 즐겨찾기 상태 조회
+    let current_favorite: bool = connection.query_row(
+        "SELECT is_favorite FROM notes WHERE id = ? AND deleted_at IS NULL",
+        [note_id],
+        |row| row.get(0),
+    )?;
+
+    // 토글된 상태로 업데이트
+    let new_favorite = !current_favorite;
+    connection.execute(
+        "UPDATE notes SET is_favorite = ? WHERE id = ? AND deleted_at IS NULL",
+        [new_favorite as i64, note_id], // rusqlite는 boolean을 i64로 처리
+    )?;
+
+    Ok(ToggleFavoriteResult {
+        note_id,
+        is_favorite: new_favorite,
+    })
 }

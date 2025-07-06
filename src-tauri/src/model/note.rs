@@ -30,3 +30,19 @@ pub struct NoteListItem {
     pub word_count: i64,
     pub updated_at: String,
 }
+
+#[derive(Debug, Serialize, Deserialize, TS)]
+#[ts(export, export_to = "../src/types/")]
+pub struct MutationResult<T> {
+    pub success: bool,
+    pub message: String,
+    pub data: Option<T>,
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, TS)]
+#[ts(export, export_to = "../src/types/")]
+pub struct ToggleFavoriteResult {
+    pub note_id: i64,
+    pub is_favorite: bool,
+}

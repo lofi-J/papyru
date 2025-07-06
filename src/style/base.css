@@ -16,42 +16,20 @@
     transition-duration: 100ms;
   }
 
-  /* 텍스트 선택을 허용할 요소들 */
-  input[type='text'],
-  input[type='email'],
-  input[type='password'],
-  input[type='search'],
-  input[type='url'],
-  input[type='tel'],
-  textarea,
-  [contenteditable='true'],
-  .editor-content,
-  .note-content,
-  .code-block,
-  .text-selectable {
-    @apply select-text;
-    user-select: text;
-    -webkit-user-select: text;
-  }
-
-  /* 에디터 영역에서의 텍스트 선택 */
-  .editor-main,
-  .editor-content,
-  [data-editor='true'] {
+  /* 텍스트 선택 가능 영역 설정 */
+  [data-selectable='true'] {
     * {
       @apply select-text;
       user-select: text;
       -webkit-user-select: text;
     }
   }
-
-  /* 버튼과 인터랙티브 요소는 선택 불가 */
-  button,
-  [role='button'],
-  .clickable {
-    @apply select-none;
-    user-select: none;
-    -webkit-user-select: none;
+  [data-selectable='false'] {
+    * {
+      @apply select-none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
   }
 
   button,

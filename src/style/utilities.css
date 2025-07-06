@@ -68,6 +68,12 @@
   .text-caption-2-b {
     @apply text-xs font-bold leading-tight tracking-wider;
   }
+  .text-small {
+    @apply text-[10px];
+  }
+  .text-small-b {
+    @apply text-[10px] font-bold;
+  }
 }
 
 /* Layout */

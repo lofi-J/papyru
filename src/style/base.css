@@ -7,6 +7,8 @@
   }
   * {
     font-family: var(--font-hahmlet);
+    user-select: none;
+    -webkit-user-select: none;
 
     /* 색상 전환 효과 */
     transition-property: background-color, border-color, color, fill, stroke;
@@ -30,17 +32,17 @@
     @apply select-text;
     user-select: text;
     -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
   }
 
   /* 에디터 영역에서의 텍스트 선택 */
   .editor-main,
   .editor-content,
   [data-editor='true'] {
-    @apply select-text;
-    user-select: text;
-    -webkit-user-select: text;
+    * {
+      @apply select-text;
+      user-select: text;
+      -webkit-user-select: text;
+    }
   }
 
   /* 버튼과 인터랙티브 요소는 선택 불가 */

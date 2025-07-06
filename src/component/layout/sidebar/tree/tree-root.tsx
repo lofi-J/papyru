@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useTreeState } from './hooks/useTreeState';
 import { TreeControlPannel } from './tree-control-pannel';
-import { TreeNewFileUI } from './tree-file-ui';
 import { TreeFolderInput } from './tree-folder-input';
+import { TreeNewFileUI } from './tree-new-file-ui';
 import { TreeNodeComponent } from './tree-node';
 import { TreeNode } from './types/tree';
 
@@ -107,7 +107,7 @@ export const TreeRoot = () => {
 
   if (error) {
     return (
-      <div className="text-caption-b px-2 py-1 text-red-500">
+      <div className="text-caption-b px-2 py-1 text-gray-500">
         Error Occured...
       </div>
     );

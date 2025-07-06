@@ -1,5 +1,5 @@
 import AppLayout from '@/component/layout/app-layout';
-import { Home, Loading, NewFilePage, NoteDetail, NotFound } from '@/page';
+import { Home, Loading, NewNotePage, NoteDetail, NotFound } from '@/page';
 import { ROUTES } from '@/shared/constance/routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
@@ -16,7 +16,7 @@ export default function App() {
             <Routes>
               <Route path={ROUTES.HOME} element={<Home />} />
               <Route path={ROUTES.NOTE} element={<NoteDetail />} />
-              <Route path={ROUTES.NEW_FILE} element={<NewFilePage />} />
+              <Route path={ROUTES.NEW_FILE} element={<NewNotePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

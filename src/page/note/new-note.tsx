@@ -1,8 +1,8 @@
-import FileLayout from '@/component/layout/note/file-layout';
+import Editor from '@/component/feature/note/editor';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
-export default function NewFilePage() {
+export default function NewNotePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [title, setTitle] = useState(searchParams.get('title') || '');
   // const [content, setContent] = useState('');
@@ -23,14 +23,9 @@ export default function NewFilePage() {
   }, [title, setSearchParams, searchParams]);
 
   return (
-    <FileLayout>
-      <input
-        type="text"
-        value={title}
-        onChange={handleTitleChange}
-        placeholder="Title"
-        className="w-full p-2 border border-gray-300 rounded-md"
-      />
-    </FileLayout>
+    <Editor>
+      <Editor.Header title={title} />
+      {JSON.stringify(title)}
+    </Editor>
   );
 }

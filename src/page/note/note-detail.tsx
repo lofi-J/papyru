@@ -1,3 +1,5 @@
+import Editor from '@/component/feature/note/editor';
+import EditorMain from '@/component/feature/note/editor-main';
 import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
 import { Note } from '@tauri-types/Note';
@@ -9,7 +11,7 @@ export default function NoteDetail() {
     queryKey: ['note', id],
     queryFn: () => invoke('get_note_by_id_command', { noteId: parseInt(id!) }),
     enabled: !!id,
-  });
+  }); 
 
   if (isLoading) {
     return <div className="p-4">Loading...</div>;
@@ -26,16 +28,8 @@ export default function NoteDetail() {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">
-        {data.title || 'Untitled Note'}
-      </h1>
-      <div className="text-gray-600 mb-4">
-        <p>ID: {data.id.toString()}</p>
-        <p>Created: {new Date(data.created_at).toLocaleDateString()}</p>
-        <p>Modified: {new Date(data.updated_at).toLocaleDateString()}</p>
-      </div>
-      <div className="prose max-w-none">{data.body || 'No content'}</div>
-    </div>
+    <EditorMain>
+      <Editor.Header title={data.title} />
+    </EditorMain>
   );
 }

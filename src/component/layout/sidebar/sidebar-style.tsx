@@ -4,10 +4,12 @@ import {
   MAX_SIDEBAR_WIDTH,
   MIN_SIDEBAR_WIDTH,
 } from '@/shared/constance/layout';
+import { ROUTES } from '@/shared/constance/routes';
 import { useSidebar } from '@/shared/context/sidebar-provider';
 import { useResize } from '@/shared/hook/use-resize.hook';
 import clsx from 'clsx';
 import { forwardRef, PropsWithChildren, useRef, useState } from 'react';
+import { Link } from 'react-router';
 
 export default function SidebarStyle({ children }: PropsWithChildren) {
   const { sidebarRef, isOpen, toggleSidebar, sidebarWidth, setSidebarWidth } =
@@ -33,9 +35,12 @@ export default function SidebarStyle({ children }: PropsWithChildren) {
           {isOpen && (
             <>
               <div className="f-r justify-between items-center px-1">
-                <div className="f-r items-center font-dm-serif-text h-8 text-subtitle-2-b">
+                <Link
+                  to={ROUTES.HOME}
+                  className="f-r items-center font-dm-serif-text h-8 text-subtitle-2-b"
+                >
                   PAPYRU
-                </div>
+                </Link>
                 <button onClick={toggleSidebar} className="ghost-button">
                   <IconChevronDoubleLeft className="w-6 h-6" />
                 </button>

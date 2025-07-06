@@ -5,8 +5,13 @@ type EditorHeaderProps = { note: Note };
 
 export const EditorHeader = ({ note }: EditorHeaderProps) => {
   return (
-    <div data-selectable="false" className="f-r items-center w-full">
-      <span className="text-caption-b text-gray-500">{note.title}</span>
+    <div
+      data-selectable="false"
+      className="f-r items-center justify-between w-full"
+    >
+      <span className="text-small-b text-gray-500 max-w-[100px] truncate">
+        {note.title}
+      </span>
       <EditorHeaderFavorite note={note} />
     </div>
   );

@@ -7,6 +7,7 @@
 }
 
 @theme inline {
+  --color-accent: var(--accent);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-background: var(--background);
@@ -16,6 +17,7 @@
 }
 
 :root {
+  --color-accent: #8200ff;
   --background: #fef7e0; /* 기본 백그라운드 (파피루스 베이스) */
   --text: #5d4e37; /* 브라운 텍스트 */
   --text-muted: color-mix(in srgb, var(--text) 70%, var(--background) 30%);
@@ -28,6 +30,7 @@
 
 /* 다크 모드 (어두운 종이 질감) */
 .dark {
+  --color-accent: #8200ff;
   --text: #ad9d7c;
   --text-muted: color-mix(in srgb, var(--text) 70%, var(--background) 30%);
   --background: #282828;

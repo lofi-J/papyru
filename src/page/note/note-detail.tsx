@@ -1,6 +1,6 @@
-import Editor from '@/component/feature/note/editor';
-import EditorMain from '@/component/feature/note/editor-main';
-import { NOTE_QUERY_KEY } from '@/component/feature/note/hooks/use-note-manager';
+import Editor from '@/feature/note/editor';
+import EditorMain from '@/feature/note/editor-main';
+import { NOTE_QUERY_KEY } from '@/feature/note/hooks/use-note-manager';
 import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
 import { Note } from '@tauri-types/Note';

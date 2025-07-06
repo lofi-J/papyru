@@ -4,10 +4,11 @@ import { MutationResult } from '@tauri-types/MutationResult';
 import { ToggleFavoriteResult } from '@tauri-types/ToggleFavoriteResult';
 
 export const NOTE_QUERY_KEY = {
-  NOTE_DETAIL: 'note-detail',
-  FILE_TREE: 'file-tree',
+  NOTE_DETAIL: 'note-detail', // 노트 상세 조회 쿼리키
+  FILE_TREE: 'file-tree', // 파일 트리 조회 쿼리키
 };
 
+// Editor 페이지에서 사용하는 노트 관리 훅
 export const useNoteManager = () => {
   const queryClient = useQueryClient();
 
@@ -20,15 +21,13 @@ export const useNoteManager = () => {
     },
     onSuccess: result => {
       if (result.success) {
-        // 노트 목록과 트리 구조 모두 무효화하여 UI 업데이트
+        // 노트 목록과 트리 구조 모두 쿼리기 무효화 --> UI 업데이트
         queryClient.invalidateQueries({
           queryKey: [NOTE_QUERY_KEY.NOTE_DETAIL],
         });
         queryClient.invalidateQueries({
           queryKey: [NOTE_QUERY_KEY.FILE_TREE],
         });
-
-        console.log('즐겨찾기 토글 성공:', result.message);
       } else {
         console.error('즐겨찾기 토글 실패:', result.error);
       }

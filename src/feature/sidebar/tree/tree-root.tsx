@@ -1,4 +1,4 @@
-import { NOTE_QUERY_KEY } from '@/component/feature/note/hooks/use-note-manager';
+import { NOTE_QUERY_KEY } from '@/feature/note/hooks/use-note-manager';
 import { ROUTES } from '@/shared/constance/routes';
 import { useQuery } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';

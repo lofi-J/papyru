@@ -1,4 +1,4 @@
-import Editor from '@/component/feature/note/editor';
+import Editor from '@/feature/note/editor';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 

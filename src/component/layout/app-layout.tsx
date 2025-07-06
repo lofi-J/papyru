@@ -1,4 +1,4 @@
-import Sidebar from '@/component/layout/sidebar/sidebar';
+import Sidebar from '@/feature/sidebar/sidebar';
 import { MIN_MAIN_MARGIN } from '@/shared/constance/layout';
 import { useSidebar } from '@/shared/context/sidebar-provider';
 import { CSSProperties, PropsWithChildren } from 'react';
@@ -8,7 +8,6 @@ export default function AppLayout({ children }: PropsWithChildren) {
 
   const mainStyle: CSSProperties = {
     marginLeft: isOpen ? sidebarWidth : MIN_MAIN_MARGIN,
-    marginRight: isOpen ? sidebarWidth : MIN_MAIN_MARGIN,
   };
 
   return (

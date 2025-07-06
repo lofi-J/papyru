@@ -25,6 +25,7 @@
       "@/*": ["./src/*"],
       "@assets/*": ["./src/assets/*"],
       "@component/*": ["./src/component/*"],
+      "@feature/*": ["./src/feature/*"],
       "@page/*": ["./src/page/*"],
       "@shared/*": ["./src/shared/*"],
       "@style/*": ["./src/style/*"],

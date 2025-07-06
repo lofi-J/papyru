@@ -16,15 +16,14 @@ export const EditorHeaderFavorite = ({ note }: { note: Note }) => {
 
   return (
     <button
-      className="f-r items-center p-1 rounded hover:bg-gray-100 transition-colors"
+      className="f-r-center p-1"
       onClick={handleToggleFavorite}
       disabled={toggleFavorite.isPending}
     >
       <StartIcon
         className={clsx(
-          'w-4 h-4 transition-colors',
-          note.is_favorite ? 'fill-yellow-500' : 'fill-gray-400',
-          toggleFavorite.isPending && 'opacity-50'
+          'w-5 h-5',
+          note.is_favorite ? 'fill-yellow-500 stroke-0' : 'fill-transparent'
         )}
       />
     </button>

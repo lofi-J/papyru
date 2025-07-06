@@ -85,4 +85,10 @@
   .f-r {
     @apply flex flex-row;
   }
+  .f-r-center {
+    @apply flex flex-row items-center;
+  }
+  .f-r-center {
+    @apply flex flex-col items-center justify-center;
+  }
 }
